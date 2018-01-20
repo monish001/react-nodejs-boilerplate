@@ -1,0 +1,16 @@
+extends layout
+block content
+  form(action="/register" method="post")
+    div
+        label Username:
+        input(type="text" name="UserName")
+    div
+        label Password:
+        input(type="password" name="Password")
+    div
+        label Confirm password:
+        input(type="password" name="c-password") // todo passwords match check
+    div
+        input(type="submit" value="Register")
+        span= message
+    

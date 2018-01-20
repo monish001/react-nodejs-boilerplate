@@ -1,0 +1,9 @@
+const CONSTANTS = {
+    BCRYPT_ROUNDS: 8,
+    ROLES_ADMIN: "ADMIN",
+    ROLES_USER_MANAGER: "USER_MANAGER",
+    ROLES_REGULAR_USER: "REGULAR_USER"
+  };
+  
+  module.exports = CONSTANTS;
+  
