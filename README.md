@@ -17,7 +17,7 @@ Open http://localhost:3001 to test changes.
 
 ## APIs
 Route | HTTP Verb | Description|Policy|Rules
---- | --- | ---| ---| ---| ---
+--- | --- | ---| ---| ---
 /api/users | GET | Get all the users.|crud user|admin|
 /api/users | POST | Create a user.|crud user|admin|
 /api/users/:userId | GET | Get a single user.|crud user|admin|
