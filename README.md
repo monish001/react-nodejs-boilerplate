@@ -56,3 +56,9 @@ CreatedTimeStamp | Number ||
 ## Todo
 ### add authN api & UI routes to the list 
 ### UI
+### Understand authN token flow and any improvements.
+### Server side validations
+
+
+
+
