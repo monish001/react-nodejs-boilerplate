@@ -5,7 +5,7 @@ import * as Repo from "../../repos";
 import * as StorageHelper from "../../adaptors/storage";
 import { Redirect } from "react-router";
 
-class Home extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,4 +58,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Login;

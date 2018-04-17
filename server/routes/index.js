@@ -55,7 +55,7 @@ router.post("/api/register", (req, res) => {
   userApi
     .post(reqBody)
     .then((data) => {
-      res.json("Registration successful");
+      res.json();
     })
     .catch(err => {
       res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).send({
