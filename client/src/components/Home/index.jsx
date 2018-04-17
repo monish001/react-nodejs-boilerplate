@@ -9,7 +9,6 @@ class Home extends Component {
     super(props);
     this.state = {
     };
-    this.handleRegister = this.handleRegister.bind(this);
   }
   render() {
     let distanceThisWeek; //= 50;

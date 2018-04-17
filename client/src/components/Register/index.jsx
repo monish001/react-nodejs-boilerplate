@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import './style.css';
 import * as Repo from '../../repos';
-import * as StorageHelper from '../../adaptors/storage';
-import { Redirect } from 'react-router';
 
 class Register extends Component {
   constructor(props) {
@@ -14,6 +13,7 @@ class Register extends Component {
     };
     this.handleRegister = this.handleRegister.bind(this);
   }
+
   handleRegister() {
     const password = this.refs.password.value;
     if (password !== this.refs['c-password'].value) {
