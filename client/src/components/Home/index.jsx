@@ -1,9 +1,16 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import "./style.css";
-import Nav from "../Nav";
-import EnsureLoggedInContainer from "../../containers/EnsureLoggedInContainer";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import './style.css';
+import Nav from '../Nav';
+import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
+
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+    this.handleRegister = this.handleRegister.bind(this);
+  }
   render() {
     let distanceThisWeek; //= 50;
     let elDistanceThisWeek;
@@ -46,7 +53,7 @@ class Home extends Component {
         <section>
           {elDistanceThisWeek}
           {elSpeedThisWeek}
-          <ul class="no-list-style-type">
+          <ul className="no-list-style-type">
             <li>
               <Link to="/records/view">View Records</Link>
             </li>
