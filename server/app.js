@@ -8,9 +8,9 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const sassMiddleware = require("node-sass-middleware");
-const index = require("./routes/index");
-const users = require("./routes/users");
-const records = require("./routes/records");
+const indexRoutes = require("./routes/index");
+const usersRoutes = require("./routes/users");
+const recordsRoutes = require("./routes/records");
 const app = express();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -133,13 +133,13 @@ authz.addPolicy("nobody", ["noAccess"]);
  * End: AuthZ section 
  */
 
-app.use("/", index);
+app.use("/", indexRoutes);
 app.use(
   "/api/users/:userId/records", authz.enforcePolicy("crud records by self"),
-  records
+  recordsRoutes
 );
-app.use("/api/records", authz.enforcePolicy("crud all records"), records);
-app.use("/api/users", authz.enforcePolicy("crud user"), users);
+app.use("/api/records", authz.enforcePolicy("crud all records"), recordsRoutes);
+app.use("/api/users", authz.enforcePolicy("crud user"), usersRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

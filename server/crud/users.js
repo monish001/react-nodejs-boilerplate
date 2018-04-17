@@ -45,7 +45,16 @@ const findOne = (partitionKey, partitionValue, sortKey, sortValue) => {
 };
 
 const get = args => {
-  return args.Id ? crud.get(tableName, "Id", args.Id) : crud.getAll(tableName);
+  const promise2 = args && args.Id ? crud.get(tableName, "Id", args.Id) : crud.getAll(tableName);
+  const promise1 = new Promise(function(resolve, reject) {
+    promise2.then(data=>{
+      data.map(userObj => {
+        delete userObj.Password;
+      });
+      resolve(data);
+    }).catch(err=>reject(err));
+  });
+  return promise1;
 };
 const remove = id => {
   return crud.remove(tableName, "Id", id);
@@ -54,12 +63,20 @@ const put = (id, args) => {
   let document = (({ UserName, Password }) => ({ UserName, Password }))(args) // See https://stackoverflow.com/a/39333479/989139 for help on syntax
   
   // TODO. Password reset & Role change later.
-  // if(document.Password) { 
-  //   const encryptedPassword = bcrypt.hashSync(document.Password, CONSTANTS.BCRYPT_ROUNDS);
-  //   document.Password = encryptedPassword;
-  // }
+  if(document.Password) { 
+    const encryptedPassword = bcrypt.hashSync(document.Password, CONSTANTS.BCRYPT_ROUNDS);
+    document.Password = encryptedPassword;
+  }
   
-  return crud.put(tableName, document, "Id", id);
+  const promise2 = crud.put(tableName, document, "Id", id);
+  const promise1 = new Promise(function(resolve, reject){
+    promise2.then(data=>{
+      delete data.Attributes.Password;
+      resolve(data.Attributes);
+    }).catch(err=>reject(err));    
+  });
+
+  return promise1;
 };
 module.exports = {
   post: post,

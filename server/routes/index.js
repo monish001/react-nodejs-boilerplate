@@ -22,9 +22,9 @@ router.get("/register", function(req, res) {
   res.render("register");
 });
 
-router.get("/logout", function(req, res) {
+router.get("/api/logout", function(req, res) {
   req.logout();
-  res.redirect("/");
+  res.redirect("/"); // TODO - Can API response have HTTP 302?
 });
 
 router.post(

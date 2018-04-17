@@ -8,7 +8,7 @@ import "./style.css";
 
 import Login from "../Login";
 // import EditRecord from '../EditRecord';
-// <Route path="/logout" component={Logout} />
+// <Route path="/api/logout" component={Logout} />
 
 const App = () => (
   <div className="App">

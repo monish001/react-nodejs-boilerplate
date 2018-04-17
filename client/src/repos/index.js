@@ -29,5 +29,5 @@ export function login(args) {
  */
 export function logout(args) {
   // See https://stackoverflow.com/a/39333479/989139 for help on syntax
-  return http.get("/logout", { headers: getHeaders() });
+  return http.get("/api/logout", { headers: getHeaders() });
 }
