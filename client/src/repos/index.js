@@ -20,7 +20,7 @@ function getHeaders() {
 export function login(args) {
     // See https://stackoverflow.com/a/39333479/989139 for help on syntax
     let request = (({ username, password }) => ({ username, password }))(args) 
-    return http.post("/login", request, { headers: getHeaders() });
+    return http.post("/api/login", request, { headers: getHeaders() });
 }
 
 /**

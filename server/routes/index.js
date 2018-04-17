@@ -22,8 +22,13 @@ router.get("/register", function(req, res) {
   res.render("register");
 });
 
+router.get("/logout", function(req, res) {
+  req.logout();
+  res.redirect("/");
+});
+
 router.post(
-  "/login", // TODO prefix /api/
+  "/api/login",
   function(req, res, next) {
     passport.authenticate("local", function(err, user, info) {
       if (err) {
@@ -42,16 +47,14 @@ router.post(
   }
 );
 
-router.get("/logout", function(req, res) {
-  req.logout();
-  res.redirect("/");
-});
-
-router.post("/register", (req, res) => {
+/**
+ * TODO: throw error is username already taken.
+ */
+router.post("/api/register", (req, res) => {
   const reqBody = req.body; // { username: 'monish006', password: 'qwerty6', 'c-password': 'qwerty6' }
   userApi
     .post(reqBody)
-    .then(() => {
+    .then((data) => {
       res.json("Registration successful");
     })
     .catch(err => {

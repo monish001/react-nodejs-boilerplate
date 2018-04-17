@@ -75,7 +75,7 @@ router.delete("/:userId", (req, res) => {
   const reqParams = req.params;
   userApi
     .remove(reqParams.userId)
-    .then(() => {
+    .then((data) => {
       res.json();
     })
     .catch(err => {

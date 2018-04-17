@@ -1,9 +1,8 @@
 const CONSTANTS = require("./constants/common");
 const express = require("express");
-const userCrud = require("./crud/users");
+const userApi = require("./crud/users");
 const userUtility = require("./utility/user");
 const path = require("path");
-// TODO UI to served later.
 // const favicon = require('serve-favicon');
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -28,10 +27,11 @@ const authz = require("express-authz");
 // will be set at `req.user` in route handlers after authentication.
 passport.use(
   new LocalStrategy(function (username, password, done) {
-    userCrud
+    userApi
       .findOne("UserName", username)
       .then(user => {
         if (userUtility.verifyPassword(user, password)) {
+          delete user.Password; // This step is a must. Else encrypted password will be exposed.
           return done(null, user);
         }
         return done(null, false);
@@ -96,7 +96,7 @@ app.use(
 );
 
 // <domain>static/js/... should work from browser.
-app.use(express.static(path.join(__dirname, "client/build/")));
+app.use(express.static(path.join(__dirname, "../client/build/")));
 
 /** 
  * Start: AuthZ section 
@@ -123,6 +123,7 @@ authz.addRule("regular user", function (req) {
   );
 });
 
+// authz.addPolicy(policyName, [roles]);
 authz.addPolicy("allAccess", ["allAccess"]);
 authz.addPolicy("crud user", ["admin"]);
 authz.addPolicy("crud all records", ["admin", "user manager"]);

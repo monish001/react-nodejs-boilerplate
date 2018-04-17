@@ -11,6 +11,15 @@ const post = args => {
   document.Password = encryptedPassword;
   return crud.post(tableName, document);
 };
+
+/**
+ * Returns a matching object if only one exists, none otherwise.
+ * Caller must `delete response.Password`
+ * @param {*} partitionKey - UserId
+ * @param {*} partitionValue
+ * @param {*} sortKey - CreatedTimeStamp
+ * @param {*} sortValue 
+ */
 const findOne = (partitionKey, partitionValue, sortKey, sortValue) => {
   const indexName = partitionKey + "-index";
   const promise1 = new Promise(function(resolve, reject) {
@@ -24,7 +33,11 @@ const findOne = (partitionKey, partitionValue, sortKey, sortValue) => {
         sortValue
       )
       .then(userList => {
-          userList.length === 1 ? resolve(userList[0]) : reject();
+          if(userList.length === 1) {
+            resolve(userList[0]);
+          } else {
+            reject();
+          }
       })
       .catch(err => reject(err));
   });
