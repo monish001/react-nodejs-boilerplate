@@ -1,27 +1,28 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import * as StorageHelper from "../../adaptors/storage";
-import * as Repo from "../../repos";
-import { Redirect } from "react-router";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
+import * as StorageHelper from '../../adaptors/storage';
 
 class EnsureLoggedInContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToLogin: false
     };
   }
 
   render() {
-    const user = StorageHelper.getItem("user");
-    const username = user && user.UserName;
-    const isLoggedIn = !!username;
-    if (isLoggedIn) {
-      return this.props.children || null;
-    } else {
-      return <Redirect to="/login" />;
-    }
+    // const user = StorageHelper.getItem('user');
+    // const username = user && user.UserName;
+    // const isLoggedIn = !!username;
+    // if (isLoggedIn) {
+    //   return this.props.children || null;
+    // }
+    return <Redirect to="/login" />;
   }
 }
+
+EnsureLoggedInContainer.propTypes = {
+  children: PropTypes.
+};
 
 export default EnsureLoggedInContainer;

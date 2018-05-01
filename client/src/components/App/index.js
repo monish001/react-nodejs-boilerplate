@@ -1,13 +1,13 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "../Home";
-import CreateRecord from "../CreateRecord";
-import ViewRecords from "../ViewRecords";
-import EditRecord from "../EditRecord";
-import "./style.css";
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Home from '../Home';
+import CreateRecord from '../CreateRecord';
+import ViewRecords from '../ViewRecords';
+import EditRecord from '../EditRecord';
+import './style.css';
 
-import Login from "../Login";
-import Register from "../Register";
+import Login from '../Login';
+import Register from '../Register';
 // import EditRecord from '../EditRecord';
 // <Route path="/api/logout" component={Logout} />
 
@@ -25,7 +25,7 @@ const App = () => (
         <Route path="/records/view" component={ViewRecords} />
         <Route path="/records/edit" component={EditRecord} />
       </div>
-    </Router>{" "}
+    </Router>{' '}
   </div>
 );
 

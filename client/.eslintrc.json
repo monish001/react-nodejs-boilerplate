@@ -1,3 +1,9 @@
 {
-    "extends": "airbnb"
+    "extends": "airbnb",
+    "rules": {
+        "react/jsx-filename-extension": "off",
+        "react/no-string-refs": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "no-undef": "off"
+    }
 }
