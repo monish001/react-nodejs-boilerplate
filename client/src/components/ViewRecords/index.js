@@ -1,17 +1,17 @@
-import Nav from "../Nav";
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import "./style.css";
-import EnsureLoggedInContainer from "../../containers/EnsureLoggedInContainer";
+import Nav from '../Nav';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import './style.css';
+import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 
 class Home extends Component {
   render() {
     const data = [
       {
-        date: "12 jan 2018",
+        date: '12 jan 2018',
         DistanceInMiles: 2,
-        TimeDurationInMinutes: 60
-      }
+        TimeDurationInMinutes: 60,
+      },
     ];
     let content;
 
@@ -21,29 +21,29 @@ class Home extends Component {
           <li key={-1}>
             Date | Distance (in miles) | Time (in mins) | Actions
           </li>
-          {data.map(function(row, index) {
+          {data.map((row, index) => {
             return (
               <li key={index}>
                 {row.date}
-                {" "}
+                {' '}
                 |
-                {" "}
+                {' '}
                 {row.DistanceInMiles}
-                {" "}
+                {' '}
                 |
-                {" "}
+                {' '}
                 {row.TimeDurationInMinutes}
-                {" "}
+                {' '}
                 |
-                {" "}
+                {' '}
                 <Link to="/records/edit">Edit</Link>
-                {" "}
+                {' '}
                 |
-                {" "}
+                {' '}
                 <a
                   href="#"
                   onClick={() =>
-                    window.confirm("Do you really want to remove this record?")}
+                    window.confirm('Do you really want to remove this record?')}
                 >
                   Remove
                 </a>
@@ -53,7 +53,7 @@ class Home extends Component {
         </ul>
       );
     } else {
-      content = "No records";
+      content = 'No records';
     }
 
     return (
