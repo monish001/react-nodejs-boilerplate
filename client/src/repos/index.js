@@ -45,9 +45,8 @@ export function logout() {
 }
 
 /**
- * 
  */
-function getUserId() {
+export function getUserId() {
   return StorageHelper.getItem('user').Id;
 }
 

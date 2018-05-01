@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './style.css';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
+import * as Repository from "../../repos";
 
 class Home extends Component {
   render() {
@@ -11,8 +12,11 @@ class Home extends Component {
         date: '12 jan 2018',
         DistanceInMiles: 2,
         TimeDurationInMinutes: 60,
+        CreatedTimeStamp: 1515924253213,
+        LastModifiedTimeStamp: 1523958286105,
       },
     ];
+    const UserId = Repository.getUserId();
     let content;
 
     if (data.length > 0) {
@@ -21,25 +25,13 @@ class Home extends Component {
           <li key={-1}>
             Date | Distance (in miles) | Time (in mins) | Actions
           </li>
-          {data.map((row, index) => {
+          {data.map((row) => {
+            const { CreatedTimeStamp, DistanceInMiles, TimeDurationInMinutes } = row;
+            const key = `${CreatedTimeStamp}::${UserId}`;
             return (
-              <li key={index}>
-                {row.date}
-                {' '}
-                |
-                {' '}
-                {row.DistanceInMiles}
-                {' '}
-                |
-                {' '}
-                {row.TimeDurationInMinutes}
-                {' '}
-                |
-                {' '}
-                <Link to="/records/edit">Edit</Link>
-                {' '}
-                |
-                {' '}
+              <li key={key}>
+                {`${new Date(CreatedTimeStamp)} | ${DistanceInMiles} | ${TimeDurationInMinutes} | `}
+                <Link to="/records/edit">Edit</Link>{` | `}
                 <a
                   href="#"
                   onClick={() =>
