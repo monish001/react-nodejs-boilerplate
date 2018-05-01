@@ -46,7 +46,7 @@ class Home extends Component {
         <section>
           {elDistanceThisWeek}
           {elSpeedThisWeek}
-          <ul class="no-list-style-type">
+          <ul className="no-list-style-type">
             <li>
               <Link to="/records/view">View Records</Link>
             </li>

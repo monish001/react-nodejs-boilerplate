@@ -17,7 +17,7 @@ class Home extends Component {
 
     if (data.length > 0) {
       content = (
-        <ul class="no-list-style-type">
+        <ul className="no-list-style-type">
           <li key={-1}>
             Date | Distance (in miles) | Time (in mins) | Actions
           </li>
