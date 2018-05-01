@@ -37,10 +37,9 @@ export function register(args) {
 }
 
 /**
- * @param {object} args
  * @return {Promise}
  */
-export function logout(args) {
+export function logout() {
   // See https://stackoverflow.com/a/39333479/989139 for help on syntax
   return http.get("/api/logout", { headers: getHeaders() });
 }

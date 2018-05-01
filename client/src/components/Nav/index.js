@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "./style.css";
 import * as StorageHelper from "../../adaptors/storage";
-import * as Repo from "../../repos";
+import * as Repository from "../../repos";
 import { Redirect } from "react-router";
 
 class Nav extends Component {
@@ -15,8 +15,8 @@ class Nav extends Component {
   }
 
   logout() {
-    StorageHelper.removeItem("user");
-    Repo.logout().then(x=>{
+    StorageHelper.removeItem('user');
+    Repository.logout().then(() => {
       this.setState({ goToLogin: true });
     });
   }
@@ -35,14 +35,15 @@ class Nav extends Component {
     if (isLoggedIn) {
       return (
         <div className="nav">
-          Hi {username}
+          Hi {username} |
+          <Link to="/">Home</Link> |
           <a href="#" onClick={this.logout}>Logout</a>
         </div>
       );
     } else {
       return (
         <div>
-          <Link to="/login">Login</Link>
+          <Link to="/login">Login</Link> | 
           <Link to="/register">Register</Link>
         </div>
       );

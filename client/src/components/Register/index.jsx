@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './style.css';
-import * as Repo from '../../repos';
+import * as Repository from '../../repos';
 import * as StorageHelper from '../../adaptors/storage';
 import { Redirect } from 'react-router';
 
@@ -20,7 +20,7 @@ class Register extends Component {
       this.setState({ showError: true });
       return;
     }
-    Repo.register({
+    Repository.register({
       username: this.refs.username.value,
       password,
     })

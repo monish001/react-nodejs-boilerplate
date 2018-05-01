@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import * as StorageHelper from "../../adaptors/storage";
-import * as Repo from "../../repos";
+import * as Repository from "../../repos";
 import { Redirect } from "react-router";
 
 class EnsureLoggedInContainer extends React.Component {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import Nav from '../Nav';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
-import * as Repo from "../../repos";
+import * as Repository from "../../repos";
 import * as StorageHelper from "../../adaptors/storage";
 import { Redirect } from "react-router";
 
@@ -16,7 +16,7 @@ class Home extends Component {
   }
 
   onClick() {
-    Repo.createRecord({
+    Repository.createRecord({
       distance: this.refs.distance.value,
       time: this.refs.time.value
     })
