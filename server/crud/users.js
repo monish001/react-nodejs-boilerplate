@@ -3,6 +3,8 @@ const CONSTANTS = require('../constants/common');
 const uuidv4 = require("uuid/v4"); // uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 const crud = require("../adaptors/crud");
 const tableName = "JoggerAppUser";
+var debug = require('debug')('monish-gupta:server:crud:users.js');
+
 const post = args => {
   let document = (({ UserName, Password }) => ({ UserName, Password }))(args) // See https://stackoverflow.com/a/39333479/989139 for help on syntax
   document.Id = uuidv4();
@@ -39,7 +41,10 @@ const findOne = (partitionKey, partitionValue, sortKey, sortValue) => {
             reject();
           }
       })
-      .catch(err => reject(err));
+      .catch(err => {
+        debug("ERROR", err.message, err);
+        reject(err)
+      });
   });
   return promise1;
 };
@@ -52,7 +57,10 @@ const get = args => {
         delete userObj.Password;
       });
       resolve(data);
-    }).catch(err=>reject(err));
+    }).catch(err=>{      
+      debug("ERROR", err.message, err);
+      reject(err);
+    });
   });
   return promise1;
 };
@@ -73,7 +81,10 @@ const put = (id, args) => {
     promise2.then(data=>{
       delete data.Attributes.Password;
       resolve(data.Attributes);
-    }).catch(err=>reject(err));    
+    }).catch(err=>{
+      debug("ERROR", err.message, err);
+      reject(err)
+    });    
   });
 
   return promise1;

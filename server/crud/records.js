@@ -1,6 +1,7 @@
 const uuidv4 = require("uuid/v4"); // uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 const crud = require("../adaptors/crud");
 const tableName = "JoggerAppRecord";
+var debug = require('debug')('monish-gupta:server:crud:records.js');
 
 const post = args => {
   // See https://stackoverflow.com/a/39333479/989139 for help on syntax
@@ -25,19 +26,38 @@ const post = args => {
  * Returns record
  */
 const get = args => {
+  debug('get', args);
   if (!args.UserId) { // if no user-id, return all records across users
+    debug('return all records across users');
     return crud.getAll(tableName);
   }
-  if (!args.CreatedTimeStamp) { // if no created-time-stamp, return all records for given user
+  if (!args.CreatedTimeStamp && !args.CreatedTimeStampFrom) { // if no created-time-stamp, return all records for given user
+    debug('return all records for given user');
     return crud.get(tableName, "UserId", args.UserId);
   }
-  return crud.get(
-    tableName,
-    "UserId",
-    args.UserId,
-    "CreatedTimeStamp",
-    Number(args.CreatedTimeStamp)
-  ); // else return record for given user created at given timestamp.
+  if(args.CreatedTimeStamp){ // return record for given user created at given timestamp.
+    debug('return record for given user created at given timestamp.');
+    return crud.get(
+      tableName,
+      "UserId",
+      args.UserId,
+      "CreatedTimeStamp",
+      Number(args.CreatedTimeStamp)
+    );   
+  }
+  if(args.CreatedTimeStampFrom && args.CreatedTimeStampTo) {
+    debug('return records for given user created in BETWEEN the given timestamps.');
+    return crud.get(
+      tableName,
+      "UserId",
+      args.UserId,
+      "CreatedTimeStamp",
+      Number(args.CreatedTimeStampFrom),
+      Number(args.CreatedTimeStampTo),
+      "BETWEEN"
+    );       
+  }
+  debug('Error');  
 };
 const remove = args => {
   return crud.remove(

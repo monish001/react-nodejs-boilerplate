@@ -2,6 +2,7 @@ const HTTP_CODES = require("../constants/http-codes");
 const express = require("express");
 const router = express.Router();
 const recordApi = require("../crud/records");
+const debug = require('debug')('monish-gupta:server:routes:records.js');
 
 /* GET all listing. */
 router.get("/", (req, res, next) => {
@@ -14,6 +15,7 @@ router.get("/", (req, res, next) => {
       res.json(data);
     })
     .catch(err => {
+      debug("ERROR", err.message, err);
       res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).send({
         error: true,
         details: err
@@ -30,6 +32,7 @@ router.post("/", (req, res) => {
       res.json();
     })
     .catch(err => {
+      debug("ERROR", err.message, err);
       res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).send({
         error: true,
         details: err
@@ -47,6 +50,7 @@ router.put("/", (req, res) => {
       res.json(data);
     })
     .catch(err => {
+      debug("ERROR", err.message, err);
       res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).send({
         error: true,
         details: err
@@ -63,6 +67,7 @@ router.delete("/", (req, res) => {
       res.json();
     })
     .catch(err => {
+      debug("ERROR", err.message, err);
       res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).send({
         error: true,
         details: err

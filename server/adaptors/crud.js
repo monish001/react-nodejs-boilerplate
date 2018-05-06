@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const debug = require('debug')('monish-gupta:server:crud.js');
 
 AWS.config.update({
   region: "us-west-2"
@@ -8,7 +9,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 const post = (tableName, document) => {
   const promise1 = new Promise(function(resolve, reject) {
-    console.log("Adding a new item...");
+    debug("Adding a new item...");
     document.CreatedTimeStamp = document.LastModifiedTimeStamp = Date.now();
     const params = {
       TableName: tableName,
@@ -16,13 +17,13 @@ const post = (tableName, document) => {
     };
     docClient.put(params, function(err, data) {
       if (err) {
-        console.error(
+        debug("ERROR", 
           "Unable to add item. Error JSON:",
           JSON.stringify(err, null, 2)
         );
         reject(err);
       } else {
-        console.log("Added item:", JSON.stringify(data, null, 2));
+        debug("Added item:", JSON.stringify(data, null, 2));
         resolve(JSON.stringify(data, null, 2));
       }
     });
@@ -47,10 +48,10 @@ const getByAttribute = (tableName, indexName, partitionKey, partitionValue, sort
     };
     docClient.query(params, function(err, data) {
       if (err) {
-        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        debug("ERROR", "Unable to query. Error:", JSON.stringify(err, null, 2));
         reject(err);
       } else {
-        console.log("Query succeeded.");
+        debug("Query succeeded.");
         resolve(data.Items);
       }
     });
@@ -58,11 +59,31 @@ const getByAttribute = (tableName, indexName, partitionKey, partitionValue, sort
   return promise1;  
 }
 
-const get = (tableName, partitionKey, partitionValue, sortKey, sortValue) => {
+/**
+ * 
+ * @param {string} tableName 
+ * @param {*} partitionKey 
+ * @param {*} partitionValue 
+ * @param {string} sortKey. optional.
+ * @param {*} sortValue. optional.
+ * @param {*} sortValue2. optional.
+ * @param {*} sortOperator. optional.
+ */
+const get = (tableName, partitionKey, partitionValue, sortKey, sortValue, sortValue2, sortOperator) => {
+  debug('get params: ', tableName, partitionKey, partitionValue, sortKey, sortValue, sortValue2, sortOperator);
   const promise1 = new Promise(function(resolve, reject) {
+    debug('get: in promise');
+    let keyConditionExpression = "#id = :id";
+    if(sortKey) {
+      if(sortOperator === 'BETWEEN') {
+        keyConditionExpression += " and #id2 BETWEEN :id2 AND :id3"
+      } else {
+        keyConditionExpression += " and #id2 = :id2";
+      }
+    }
     const params = {
       TableName: tableName,
-      KeyConditionExpression: "#id = :id" + (sortKey ? " and #id2 = :id2" : ""),
+      KeyConditionExpression: keyConditionExpression,
       ExpressionAttributeNames: {
         "#id": partitionKey,
         "#id2": sortKey,
@@ -70,14 +91,16 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue) => {
       ExpressionAttributeValues: {
         ":id": partitionValue,
         ":id2": sortValue,
+        ":id3": sortValue2
       }
     };
+    debug('get: query params', params);
     docClient.query(params, function(err, data) {
       if (err) {
-        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        debug("ERROR ", "Unable to query. Error:", JSON.stringify(err, null, 2));
         reject(err);
       } else {
-        console.log("Query succeeded.");
+        debug("Query succeeded.");
         resolve(data.Items);
       }
     });
@@ -87,23 +110,23 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue) => {
 
 const getAll = tableName => {
   const promise1 = new Promise(function(resolve, reject) {
-    console.log("Get items...");
+    debug("Get items...");
     const params = {
       TableName: tableName
     };
     docClient.scan(params, function(err, data) {
       if (err) {
-        console.error(
+        debug("ERROR ", 
           "Unable to read item. Error JSON:",
           JSON.stringify(err, null, 2)
         );
         reject(err);
       } else {
-        console.log("Scan succeeded.");
+        debug("Scan succeeded.");
         //   // continue scanning if we have more movies, because
         //   // scan can retrieve a maximum of 1MB of data
         //   if (typeof data.LastEvaluatedKey != "undefined") {
-        //     console.log("Scanning for more...");
+        //     debug("Scanning for more...");
         //     params.ExclusiveStartKey = data.LastEvaluatedKey;
         //     docClient.scan(params, onScan);
         // }
@@ -132,7 +155,7 @@ const getUpdateExpression = document => {
 
 const put = (tableName, document, partitionKey, partitionValue, sortKey, sortValue) => {
   const promise1 = new Promise(function(resolve, reject) {
-    console.log("Updating the item...");
+    debug("Updating the item...");
     const keys = {};
     keys[partitionKey] = partitionValue;
     keys[sortKey] = sortValue;
@@ -147,13 +170,13 @@ const put = (tableName, document, partitionKey, partitionValue, sortKey, sortVal
     };
     docClient.update(params, function(err, data) {
       if (err) {
-        console.error(
+        debug("ERROR ", 
           "Unable to update item. Error JSON:",
           JSON.stringify(err, null, 2)
         );
         reject(err);
       } else {
-        console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+        debug("UpdateItem succeeded:", JSON.stringify(data, null, 2));
         resolve(data);
       }
     });
@@ -163,7 +186,7 @@ const put = (tableName, document, partitionKey, partitionValue, sortKey, sortVal
 
 const remove = (tableName, partitionKey, partitionValue, sortKey, sortValue) => {
   const promise1 = new Promise(function(resolve, reject) {
-    console.log("Delete an item...");
+    debug("Delete an item...");
     const keys = {};
     keys[partitionKey] = partitionValue;
     keys[sortKey] = sortValue;
@@ -173,13 +196,13 @@ const remove = (tableName, partitionKey, partitionValue, sortKey, sortValue) => 
     };
     docClient.delete(params, function(err, data) {
       if (err) {
-        console.error(
+        debug("ERROR ", 
           "Unable to delete item. Error JSON:",
           JSON.stringify(err, null, 2)
         );
         reject(err);
       } else {
-        console.log("DeleteItem succeeded:", JSON.stringify(data, null, 2));
+        debug("DeleteItem succeeded:", JSON.stringify(data, null, 2));
         resolve();
       }
     });
