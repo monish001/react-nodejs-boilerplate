@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import './style.css';
 import * as Repository from '../../repositories/user';
 import * as StorageHelper from '../../adaptors/storage';
-import { Redirect } from 'react-router';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToHome: false
+      goToHome: false,
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
   handleLogin() {
     Repository.login({
       username: this.refs.username.value,
-      password: this.refs.password.value
+      password: this.refs.password.value,
     })
-      .then(response => {
+      .then((response) => {
         // TODO encrypted passwd can be removed from get user api response
         StorageHelper.setItem('user', response.data);
         this.setState({ goToHome: true });
       })
-      .catch(err => {
+      .catch((err) => {
         // TODO
         console.error(err);
       });

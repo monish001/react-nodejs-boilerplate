@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import './style.css';
 import * as Repository from '../../repositories/user';
-import * as StorageHelper from '../../adaptors/storage';
-import { Redirect } from 'react-router';
 
 class Register extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class Register extends Component {
       username: this.refs.username.value,
       password,
     })
-      .then((response) => {
+      .then(() => {
         // TODO encrypted passwd can be removed from get user api response
         // StorageHelper.setItem('user', response.data);
         this.setState({ goToHome: true });
