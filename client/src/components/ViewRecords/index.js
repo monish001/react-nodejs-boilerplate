@@ -1,9 +1,9 @@
-import Nav from '../Nav';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './style.css';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
-import * as Repository from "../../repositories";
+import * as Repository from '../../repositories/user';
+import Nav from '../Nav';
 
 class Home extends Component {
   render() {
@@ -31,7 +31,7 @@ class Home extends Component {
             return (
               <li key={key}>
                 {`${new Date(CreatedTimeStamp)} | ${DistanceInMiles} | ${TimeDurationInMinutes} | `}
-                <Link to="/records/edit">Edit</Link>{` | `}
+                <Link to="/records/edit">Edit</Link>{' | '}
                 <a
                   href="#"
                   onClick={() =>

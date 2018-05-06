@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import "./style.css";
-import * as Repository from "../../repositories";
-import * as StorageHelper from "../../adaptors/storage";
-import { Redirect } from "react-router";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import './style.css';
+import * as Repository from '../../repositories/user';
+import * as StorageHelper from '../../adaptors/storage';
+import { Redirect } from 'react-router';
 
 class Login extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Login extends Component {
     })
       .then(response => {
         // TODO encrypted passwd can be removed from get user api response
-        StorageHelper.setItem("user", response.data);
+        StorageHelper.setItem('user', response.data);
         this.setState({ goToHome: true });
       })
       .catch(err => {
@@ -40,17 +40,17 @@ class Login extends Component {
         </main>
         <section>
           <label>
-            Username: {" "}
+            Username: {' '}
             <input type="text" name="username" ref="username" />
           </label>
           <label>
-            Password: {" "}
+            Password: {' '}
             <input type="password" name="password" ref="password" />
           </label>
           <a href="#" onClick={this.handleLogin}>Login</a>
-          {" "}
+          {' '}
           or
-          {" "}
+          {' '}
           <Link to="/register">Register</Link>
         </section>
       </div>

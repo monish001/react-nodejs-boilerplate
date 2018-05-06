@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import "./style.css";
-import * as StorageHelper from "../../adaptors/storage";
-import * as Repository from "../../repositories";
-import { Redirect } from "react-router";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import './style.css';
+import * as StorageHelper from '../../adaptors/storage';
+import * as Repository from '../../repositories/user';
 
 class Nav extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class Nav extends Component {
       return <Redirect to="/login" />;
     }
 
-    const user = StorageHelper.getItem("user");
+    const user = StorageHelper.getItem('user');
     const username = user && user.UserName;
     const isLoggedIn = !!username;
 

@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import "./style.css";
+import React, { Component } from 'react';
+import './style.css';
 import Nav from '../Nav';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
-import * as Repository from "../../repositories";
-import * as StorageHelper from "../../adaptors/storage";
-import { Redirect } from "react-router";
+import * as Repository from '../../repositories/user-record';
+import * as StorageHelper from '../../adaptors/storage';
+import { Redirect } from 'react-router';
 
 class Home extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class Home extends Component {
   }
 
   onClick() {
-    Repository.createRecord({
+    Repository.create({
       distance: this.refs.distance.value,
       time: this.refs.time.value
     })
