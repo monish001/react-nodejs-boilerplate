@@ -16,6 +16,7 @@ const post = args => {
   }))(args);
   return crud.post(tableName, document);
 };
+
 /**
  * get user-records. 
  * @param {Object} args.
@@ -36,13 +37,13 @@ const get = args => {
     return crud.get(tableName, "UserId", args.UserId);
   }
   if(args.CreatedTimeStamp){ // return record for given user created at given timestamp.
-    debug('return record for given user created at given timestamp.');
+    debug('return record for given user created at given timestamp - ', Date.parse(args.CreatedTimeStamp));
     return crud.get(
       tableName,
       "UserId",
       args.UserId,
       "CreatedTimeStamp",
-      Number(args.CreatedTimeStamp)
+      Date.parse(args.CreatedTimeStamp)
     );   
   }
   if(args.CreatedTimeStampFrom && args.CreatedTimeStampTo) {
@@ -52,8 +53,8 @@ const get = args => {
       "UserId",
       args.UserId,
       "CreatedTimeStamp",
-      Number(args.CreatedTimeStampFrom),
-      Number(args.CreatedTimeStampTo),
+      Date.parse(args.CreatedTimeStampFrom),
+      Date.parse(args.CreatedTimeStampTo),
       "BETWEEN"
     );       
   }
@@ -65,7 +66,7 @@ const remove = args => {
     "UserId",
     args.UserId,
     "CreatedTimeStamp",
-    Number(args.CreatedTimeStamp)
+    Date.parse(args.CreatedTimeStamp)
   );
 };
 const put = (keys, args) => {
@@ -85,7 +86,7 @@ const put = (keys, args) => {
     "UserId",
     keys.UserId,
     "CreatedTimeStamp",
-    Number(keys.CreatedTimeStamp)
+    Date.parse(keys.CreatedTimeStamp)
   );
 };
 module.exports = {
