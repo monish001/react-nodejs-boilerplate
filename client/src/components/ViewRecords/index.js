@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './style.css';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
-import * as Repository from "../../repos";
+import * as Repository from "../../repositories";
 
 class Home extends Component {
   render() {

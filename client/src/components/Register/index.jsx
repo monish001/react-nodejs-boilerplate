@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './style.css';
-import * as Repository from '../../repos';
+import * as Repository from '../../repositories';
 import * as StorageHelper from '../../adaptors/storage';
 import { Redirect } from 'react-router';
 

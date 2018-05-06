@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import Nav from '../Nav';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
-import * as Repository from "../../repos";
+import * as Repository from "../../repositories";
 import * as StorageHelper from "../../adaptors/storage";
 import { Redirect } from "react-router";
 
