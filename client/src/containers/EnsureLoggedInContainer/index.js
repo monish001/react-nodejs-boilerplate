@@ -1,26 +1,22 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import * as StorageHelper from "../../adaptors/storage";
-import * as Repository from "../../repositories";
-import { Redirect } from "react-router";
+import React from 'react';
+import { Redirect } from 'react-router';
+import * as StorageHelper from '../../adaptors/storage';
 
 class EnsureLoggedInContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToLogin: false
     };
   }
 
   render() {
-    const user = StorageHelper.getItem("user");
+    const user = StorageHelper.getItem('user');
     const username = user && user.UserName;
     const isLoggedIn = !!username;
     if (isLoggedIn) {
       return this.props.children || null;
-    } else {
-      return <Redirect to="/login" />;
     }
+    return <Redirect to="/login" />;
   }
 }
 
