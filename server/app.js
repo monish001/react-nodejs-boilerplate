@@ -118,12 +118,29 @@ authz.addRule("user manager", function (req) {
   return req.user.Role === CONSTANTS.ROLES_USER_MANAGER;
 });
 authz.addRule("regular user", function (req) {
-  if (req.body.UserId && req.body.UserId !== req.user.Id) {
-    return false; // if case req body contains user id of other user
+  // req.body.UserId from request payload
+  // req.params.userId from API URI path
+  // req.user.Id from session
+  const userIdInApiUrlPath = req.params.userId;
+  const userIdInReqPayload = req.body.UserId || req.query.UserId; // req.body for POST or req.query for GET
+  const userIdFromSession = req.user.Id;
+  debug(userIdInReqPayload, userIdFromSession, userIdInApiUrlPath);
+  if(!userIdInReqPayload){
+    debug('AuthZ ERROR: request payload does not contain UserId');
+    return false;
   }
+  if(userIdInReqPayload !== userIdInApiUrlPath){
+    debug('AuthZ ERROR: UserId in request payload not same as in API URI path');    
+    return false;
+  }
+  if (userIdInReqPayload !== userIdFromSession) {
+    debug('AuthZ ERROR: UserId in request payload not same as in session');    
+    return false;
+  }
+  debug('AuthZ Success');    
   return (
     req.user.Role === CONSTANTS.ROLES_REGULAR_USER &&
-    req.params.userId === req.user.Id
+    userIdInApiUrlPath === userIdFromSession
   );
 });
 

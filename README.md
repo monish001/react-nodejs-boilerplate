@@ -58,3 +58,6 @@ CreatedTimeStamp | Number ||
 ### UI
 ### Understand authN token flow and any improvements.
 ### Server side validations
+### UI loader
+### 401 on API call should open up login page.
+### Storage.getUser() error should open up login page.
