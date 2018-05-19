@@ -61,8 +61,11 @@ router.put("/", (req, res) => {
 router.delete("/", (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
+  const reqQuery = req.query;
+  debug('reqBody, reqParams, reqQuery');
+  debug(reqBody, reqParams, reqQuery);
   recordApi
-    .remove(reqBody)
+    .remove(reqQuery)
     .then(() => {
       res.json();
     })

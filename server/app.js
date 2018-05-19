@@ -99,6 +99,12 @@ app.use(
   })
 );
 
+app.use((req, res, next)=>{
+  debug('req.originalUrl, req.headers, req.body, req.params, req.query');
+  debug(req.originalUrl, req.headers, req.body, req.params, req.query);
+  next();
+});
+
 // <domain>static/js/... should work from browser.
 app.use(express.static(path.join(__dirname, "../client/build/")));
 
@@ -124,27 +130,31 @@ authz.addRule("regular user", function (req) {
   const userIdInApiUrlPath = req.params.userId;
   const userIdInReqPayload = req.body.UserId || req.query.UserId; // req.body for POST or req.query for GET
   const userIdFromSession = req.user.Id;
+  debug('userIdInReqPayload, userIdFromSession, userIdInApiUrlPath');
   debug(userIdInReqPayload, userIdFromSession, userIdInApiUrlPath);
-  if(!userIdInReqPayload){
-    debug('AuthZ ERROR: request payload does not contain UserId');
-    return false;
-  }
-  if(userIdInReqPayload !== userIdInApiUrlPath){
+  // if userIdInReqPayload exists, it should match userIdInApiUrlPath 
+  if(userIdInReqPayload && userIdInReqPayload !== userIdInApiUrlPath){
     debug('AuthZ ERROR: UserId in request payload not same as in API URI path');    
     return false;
   }
-  if (userIdInReqPayload !== userIdFromSession) {
+  // if userIdInReqPayload exists, it should match userIdFromSession 
+  if (userIdInReqPayload && userIdInReqPayload !== userIdFromSession) {
     debug('AuthZ ERROR: UserId in request payload not same as in session');    
     return false;
   }
+  if(req.user.Role !== CONSTANTS.ROLES_REGULAR_USER) {
+    debug('AuthZ Failure. req.user.Role !== CONSTANTS.ROLES_REGULAR_USER');    
+    return false;
+  }
+  if(userIdInApiUrlPath !== userIdFromSession) {
+    debug('AuthZ Failure. userIdInApiUrlPath !== userIdFromSession');    
+    return false;
+  }
   debug('AuthZ Success');    
-  return (
-    req.user.Role === CONSTANTS.ROLES_REGULAR_USER &&
-    userIdInApiUrlPath === userIdFromSession
-  );
+  return true;
 });
 
-// authz.addPolicy(policyName, [roles]);
+// Syntax: authz.addPolicy(policyName, [roles]);
 authz.addPolicy("allAccess", ["allAccess"]);
 authz.addPolicy("crud user", ["admin"]);
 authz.addPolicy("crud all records", ["admin", "user manager"]);
@@ -154,6 +164,8 @@ authz.addPolicy("nobody", ["noAccess"]);
  * End: AuthZ section 
  */
 
+ // TODO, apply authN as middleware in the routes.
+ // Somehow, authZ check is getting error out even before authN check.
 app.use("/", indexRoutes);
 app.use(
   "/api/users/:userId/records", authz.enforcePolicy("crud records by self"),

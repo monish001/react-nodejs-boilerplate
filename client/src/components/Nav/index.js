@@ -40,14 +40,13 @@ class Nav extends Component {
           <a href="#" onClick={this.logout}>Logout</a>
         </div>
       );
-    } else {
-      return (
-        <div>
-          <Link to="/login">Login</Link> | 
-          <Link to="/register">Register</Link>
-        </div>
-      );
     }
+    return (
+      <div>
+        <Link to="/login">Login</Link> |
+        <Link to="/register">Register</Link>
+      </div>
+    );
   }
 }
 

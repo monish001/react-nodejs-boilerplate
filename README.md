@@ -40,8 +40,8 @@ Column Name|Data Type|Key Type
 UserId | String | Primary partition key
 DistanceInMiles | Number | 
 TimeDurationInMinutes | Number | 
-LastModifiedTimeStamp | Number | 
-CreatedTimeStamp | Number | Primary sort key
+LastModifiedTimeStamp | String | 
+CreatedTimeStamp | String | Primary sort key
 
 ### Table JoggerAppUser
 Column Name|Data Type|Key Type|Comments
@@ -50,8 +50,8 @@ Id | String |Primary partition key|
 Role | String. Any of Admin/Manager/User||
 UserName|String||
 Password | String || Encrypted string
-LastModifiedTimeStamp | Number || 
-CreatedTimeStamp | Number || 
+LastModifiedTimeStamp | String || 
+CreatedTimeStamp | String || 
 
 ## Todo
 ### add authN api & UI routes to the list 

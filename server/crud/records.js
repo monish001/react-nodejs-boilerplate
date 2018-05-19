@@ -4,6 +4,7 @@ const tableName = "JoggerAppRecord";
 var debug = require('debug')('monish-gupta:server:crud:records.js');
 
 const post = args => {
+  debug('post', args);
   // See https://stackoverflow.com/a/39333479/989139 for help on syntax
   let document = (({
     UserId,
@@ -37,13 +38,13 @@ const get = args => {
     return crud.get(tableName, "UserId", args.UserId);
   }
   if(args.CreatedTimeStamp){ // return record for given user created at given timestamp.
-    debug('return record for given user created at given timestamp - ', Date.parse(args.CreatedTimeStamp));
+    debug('return record for given user created at given timestamp - ', args.CreatedTimeStamp);
     return crud.get(
       tableName,
       "UserId",
       args.UserId,
       "CreatedTimeStamp",
-      Date.parse(args.CreatedTimeStamp)
+      args.CreatedTimeStamp
     );   
   }
   if(args.CreatedTimeStampFrom && args.CreatedTimeStampTo) {
@@ -53,23 +54,25 @@ const get = args => {
       "UserId",
       args.UserId,
       "CreatedTimeStamp",
-      Date.parse(args.CreatedTimeStampFrom),
-      Date.parse(args.CreatedTimeStampTo),
+      args.CreatedTimeStampFrom,
+      args.CreatedTimeStampTo,
       "BETWEEN"
     );       
   }
   debug('Error');  
 };
 const remove = args => {
+  debug('remove', args);
   return crud.remove(
     tableName,
     "UserId",
     args.UserId,
     "CreatedTimeStamp",
-    Date.parse(args.CreatedTimeStamp)
+    args.CreatedTimeStamp
   );
 };
 const put = (keys, args) => {
+  debug('put', keys, args);
   // See https://stackoverflow.com/a/39333479/989139 for help on syntax
   let document = (({
     UserId,
@@ -86,7 +89,7 @@ const put = (keys, args) => {
     "UserId",
     keys.UserId,
     "CreatedTimeStamp",
-    Date.parse(keys.CreatedTimeStamp)
+    keys.CreatedTimeStamp
   );
 };
 module.exports = {

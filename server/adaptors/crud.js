@@ -8,9 +8,10 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const post = (tableName, document) => {
+  debug('post params', tableName, document);
   const promise1 = new Promise(function(resolve, reject) {
     debug("Adding a new item...");
-    document.CreatedTimeStamp = document.LastModifiedTimeStamp = Date.now();
+    document.CreatedTimeStamp = document.LastModifiedTimeStamp = new Date().toISOString();
     const params = {
       TableName: tableName,
       Item: document
@@ -32,6 +33,7 @@ const post = (tableName, document) => {
 };
 
 const getByAttribute = (tableName, indexName, partitionKey, partitionValue, sortKey, sortValue) => {
+  debug('getByAttribute', tableName, indexName, partitionKey, partitionValue, sortKey, sortValue);
   const promise1 = new Promise(function(resolve, reject) {
     const params = {
       TableName: tableName,
@@ -109,6 +111,7 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue, sortVa
 };
 
 const getAll = tableName => {
+  debug('getAll params', tableName);
   const promise1 = new Promise(function(resolve, reject) {
     debug("Get items...");
     const params = {
@@ -141,7 +144,7 @@ const getAll = tableName => {
 const getUpdateExpression = document => {
   let UpdateExpression = "set LastModifiedTimeStamp = :LastModifiedTimeStamp";
   let ExpressionAttributeValues = {
-    ":LastModifiedTimeStamp": Date.now()
+    ":LastModifiedTimeStamp": new Date().toISOString()
   };
   const ignore = ["Id", "LastModifiedTimeStamp", "CreatedTimeStamp"];
   for (key in document) {
@@ -154,6 +157,7 @@ const getUpdateExpression = document => {
 };
 
 const put = (tableName, document, partitionKey, partitionValue, sortKey, sortValue) => {
+  debug('put params', tableName, document, partitionKey, partitionValue, sortKey, sortValue);
   const promise1 = new Promise(function(resolve, reject) {
     debug("Updating the item...");
     const keys = {};
@@ -185,6 +189,7 @@ const put = (tableName, document, partitionKey, partitionValue, sortKey, sortVal
 };
 
 const remove = (tableName, partitionKey, partitionValue, sortKey, sortValue) => {
+  debug('remove params', tableName, partitionKey, partitionValue, sortKey, sortValue);
   const promise1 = new Promise(function(resolve, reject) {
     debug("Delete an item...");
     const keys = {};

@@ -7,24 +7,38 @@ import * as BaseRepository from './base';
 /**
  * get
  */
-export function get() {
-  // See https://stackoverflow.com/a/39333479/989139 for help on syntax
+export function read(createdTimeStamp) {
+  const userId = UserRepository.getUserId();
   const request = {
-    UserId: UserRepository.getUserId(),
+    UserId: userId,
+    CreatedTimeStamp: createdTimeStamp,
   };
-  return http.get(`/api/users/${UserRepository.getUserId()}/records`, request, { headers: BaseRepository.getHeaders() });
+  // console.log('records get', request);
+  return http.get(`/api/users/${userId}/records`, { params: request }, { headers: BaseRepository.getHeaders() });
 }
 
 /**
  * createRecord
  */
 export function create(args) {
-  // See https://stackoverflow.com/a/39333479/989139 for help on syntax
+  const userId = UserRepository.getUserId();
   const request = {
-    UserId: UserRepository.getUserId(),
+    UserId: userId,
     DistanceInMiles: args.distance,
     TimeDurationInMinutes: args.time,
   };
-  return http.post(`/api/users/${UserRepository.getUserId()}`, request, { headers: BaseRepository.getHeaders() });
+  return http.post(`/api/users/${userId}/records`, request, { headers: BaseRepository.getHeaders() });
+}
+
+/**
+ * remove
+ */
+export function remove(createdTimeStamp) {
+  const userId = UserRepository.getUserId();
+  const request = {
+    UserId: userId,
+    CreatedTimeStamp: createdTimeStamp,
+  };
+  return http.delete(`/api/users/${userId}/records`, { params: request }, { headers: BaseRepository.getHeaders() });
 }
 

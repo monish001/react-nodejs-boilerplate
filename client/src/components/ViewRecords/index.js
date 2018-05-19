@@ -12,12 +12,13 @@ class ViewRecords extends Component {
     this.state = {
       records: [],
     };
+    this.onRemove = this.onRemove.bind(this);
   }
 
   componentWillMount() {
     // TODO loader
     UserRecordsRepository
-      .get()
+      .read()
       .then((response) => {
         console.log(response.data);
         this.setState({
@@ -26,7 +27,25 @@ class ViewRecords extends Component {
       }).catch(err => console.error(err));
   }
 
+  onRemove(e, createdTimeStamp) {
+    const isRemovalConfirmed = window.confirm('Do you really want to remove this record?');
+    if (!isRemovalConfirmed) {
+      return;
+    }
+    const { records } = this.state;
+    UserRecordsRepository.remove(createdTimeStamp)
+      .then(() => {
+        const newRecords = records.filter(record => record.CreatedTimeStamp !== createdTimeStamp);
+        this.setState({ records: newRecords });
+      })
+      .catch((err) => {
+        // TODO
+        console.error(err);
+      });
+  }
+
   render() {
+    // TODO: move to proptypes
     // CreatedTimeStamp
     // :
     // 1515924253213
@@ -59,13 +78,7 @@ class ViewRecords extends Component {
               <li key={key}>
                 {`${new Date(CreatedTimeStamp)} | ${DistanceInMiles} | ${TimeDurationInMinutes} | `}
                 <Link to={`/records/edit/${CreatedTimeStamp}`}>Edit</Link>{' | '}
-                <a
-                  href="#"
-                  onClick={() =>
-                    window.confirm('Do you really want to remove this record?')}
-                >
-                  Remove
-                </a>
+                <a href="#" onClick={e => this.onRemove(e, CreatedTimeStamp)}>Remove</a>
               </li>
             );
           })}
