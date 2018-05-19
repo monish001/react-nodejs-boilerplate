@@ -44,6 +44,8 @@ router.put("/", (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   const reqQuery = req.query;
+  debug('reqBody, reqParams, reqQuery');
+  debug(reqBody, reqParams, reqQuery);
   recordApi
     .put(reqQuery, reqBody)
     .then(data => {

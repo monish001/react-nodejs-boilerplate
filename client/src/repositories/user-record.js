@@ -42,3 +42,14 @@ export function remove(createdTimeStamp) {
   return http.delete(`/api/users/${userId}/records`, { params: request }, { headers: BaseRepository.getHeaders() });
 }
 
+/**
+ * update
+ */
+export function update(createdTimeStamp, data) {
+  const userId = UserRepository.getUserId();
+  const request = {
+    DistanceInMiles: data.distanceInMiles,
+    TimeDurationInMinutes: data.timeDurationInMinutes,
+  };
+  return http.put(`/api/users/${userId}/records?UserId=${userId}&CreatedTimeStamp=${createdTimeStamp}`, request, { headers: BaseRepository.getHeaders() });
+}
