@@ -7,7 +7,6 @@ const path = require("path");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const sassMiddleware = require("node-sass-middleware");
 const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
 const recordsRoutes = require("./routes/records");
@@ -17,6 +16,27 @@ const LocalStrategy = require("passport-local").Strategy;
 const authz = require("express-authz");
 const debug = require('debug')('monish-gupta:server:app.js');
 const HTTP_CODES = require("./constants/http-codes");
+
+// <domain>static/js/... should work from browser.
+app.use(express.static(path.join(__dirname, "../client/build/")));
+
+app.use(
+  require("express-session")({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(cookieParser());
+
 
 /** 
  * Start: AuthN section 
@@ -58,17 +78,10 @@ passport.deserializeUser(function (userStr, cb) {
   try {
     cb(null, JSON.parse(userStr));
   } catch (err) {
+    debug('deserializeUser', err);
     return cb(err);
   }
 });
-
-app.use(
-  require("express-session")({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false
-  })
-);
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
@@ -82,32 +95,11 @@ app.use(passport.session());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(cookieParser());
-
-app.use(
-  sassMiddleware({
-    src: path.join(__dirname, "public"),
-    dest: path.join(__dirname, "public"),
-    indentedSyntax: true, // true = .sass and false = .scss
-    sourceMap: true
-  })
-);
-
 app.use((req, res, next)=>{
   debug('req.originalUrl, req.headers, req.body, req.params, req.query');
   debug(req.originalUrl, req.headers, req.body, req.params, req.query);
   next();
 });
-
-// <domain>static/js/... should work from browser.
-app.use(express.static(path.join(__dirname, "../client/build/")));
 
 /** 
  * Start: AuthZ section 
@@ -174,13 +166,6 @@ app.use(
 );
 app.use("/api/records", authz.enforcePolicy("crud all records"), recordsRoutes);
 app.use("/api/users", authz.enforcePolicy("crud user"), usersRoutes);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error("Not Found");
-  err.status = HTTP_CODES.NOT_FOUND;
-  next(err);
-});
 
 // error handler
 app.use(function (err, req, res, next) {
