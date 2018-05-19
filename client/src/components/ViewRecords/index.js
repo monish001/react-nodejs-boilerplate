@@ -39,8 +39,7 @@ class ViewRecords extends Component {
         this.setState({ records: newRecords });
       })
       .catch((err) => {
-        // TODO
-        console.error(err);
+        console.error(err); // TODO
       });
   }
 

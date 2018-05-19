@@ -10,7 +10,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToHome: false
+      goToHome: false,
     };
     this.onClick = this.onClick.bind(this);
   }
@@ -18,17 +18,13 @@ class Home extends Component {
   onClick() {
     Repository.create({
       distance: this.refs.distance.value,
-      time: this.refs.time.value
+      time: this.refs.time.value,
     })
-      .then(response => {
-        // debugger;
-        // TODO encrypted passwd can be removed from get user api response
-        // StorageHelper.setItem("user", response.data);
+      .then(() => {
         this.setState({ goToHome: true });
       })
-      .catch(err => {
-        // TODO
-        console.error(err);
+      .catch((err) => {
+        console.error(err); // TODO
       });
   }
 
@@ -39,7 +35,7 @@ class Home extends Component {
     }
     return (
       <div className="create-record-page">
-        <EnsureLoggedInContainer/>
+        <EnsureLoggedInContainer />
         <Nav />
         <main>
           <h3>Create Record</h3>

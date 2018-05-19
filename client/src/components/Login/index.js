@@ -19,13 +19,11 @@ class Login extends Component {
       password: this.refs.password.value,
     })
       .then((response) => {
-        // TODO encrypted passwd can be removed from get user api response
         StorageHelper.setItem('user', response.data);
         this.setState({ goToHome: true });
       })
       .catch((err) => {
-        // TODO
-        console.error(err);
+        console.error(err); // TODO
       });
   }
   render() {

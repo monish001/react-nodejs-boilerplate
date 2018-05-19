@@ -5,6 +5,7 @@ const passport = require("passport");
 const ensureLoggedIn = require("connect-ensure-login").ensureLoggedIn;
 const userApi = require("../crud/users");
 const debug = require('debug')('monish-gupta:server:routes:index.js');
+const HTTP_CODES = require("../constants/http-codes");
 
 /* GET home page. */
 router.get("/", ensureLoggedIn(), function(req, res, next) {
@@ -25,7 +26,7 @@ router.get("/register", function(req, res) {
 
 router.get("/api/logout", function(req, res) {
   req.logout();
-  res.redirect("/"); // TODO - Can API response have HTTP 302?
+  res.json();
 });
 
 router.post(
@@ -36,7 +37,7 @@ router.post(
         return next(err);
       }
       if (!user) {
-        return res.status(403).send();
+        return res.status(HTTP_CODES.FORBIDDEN).send();
       }
       req.logIn(user, function(err) {
         if (err) {
@@ -49,7 +50,7 @@ router.post(
 );
 
 /**
- * TODO: throw error is username already taken.
+ * TODO: throw error if username already taken.
  */
 router.post("/api/register", (req, res) => {
   const reqBody = req.body; // { username: 'monish006', password: 'qwerty6', 'c-password': 'qwerty6' }

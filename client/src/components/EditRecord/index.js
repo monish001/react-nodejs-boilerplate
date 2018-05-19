@@ -43,16 +43,14 @@ class Home extends Component {
       timeDurationInMinutes, distanceInMiles, createdTimeStamp,
     } = this.state;
     UserRecordsRepository.update(createdTimeStamp, { timeDurationInMinutes, distanceInMiles })
-      .then(() => {
-        // TODO: show success message
+      .then(() => { // TODO: show success message
         this.setState({
           _timeDurationInMinutes: timeDurationInMinutes,
           _distanceInMiles: distanceInMiles,
         });
       })
       .catch((err) => {
-        // TODO
-        console.error(err);
+        console.error(err); // TODO
         // revert the UI fields
         this.setState({
           timeDurationInMinutes: _timeDurationInMinutes,
