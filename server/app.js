@@ -16,6 +16,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const authz = require("express-authz");
 const debug = require('debug')('monish-gupta:server:app.js');
+const HTTP_CODES = require("./constants/http-codes");
 
 /** 
  * Start: AuthN section 
@@ -177,21 +178,16 @@ app.use("/api/users", authz.enforcePolicy("crud user"), usersRoutes);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error("Not Found");
-  err.status = 404;
+  err.status = HTTP_CODES.NOT_FOUND;
   next(err);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  // TODO UI to served later.
-  //
-  // set locals, only providing error in development
-  // res.locals.message = err.message;
-  // res.locals.error = req.app.get('env') === 'development' ? err : {};
   debug("ERROR ", err.status, err.message, err);
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status || HTTP_CODES.INTERNAL_SERVER_ERROR);
   res.json(err.message);
 });
 
