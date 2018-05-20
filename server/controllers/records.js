@@ -3,9 +3,11 @@ const express = require("express");
 const router = express.Router();
 const recordApi = require("../crud/records");
 const debug = require('debug')('monish-gupta:server:controllers:records.js');
+const validations = require('./validations/records');
+const validate = require('express-validation');
 
 /* GET all listing. */
-router.get("/", (req, res, next) => {
+router.get("/", validate(validations.get), (req, res, next) => {
   const reqBody = req.body;
   const reqParams = req.params;
   const reqQuery = req.query;
