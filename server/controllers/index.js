@@ -4,7 +4,7 @@ const router = express.Router();
 const passport = require("passport");
 const ensureLoggedIn = require("connect-ensure-login").ensureLoggedIn;
 const userApi = require("../crud/users");
-const debug = require('debug')('monish-gupta:server:routes:index.js');
+const debug = require('debug')('monish-gupta:server:controllers:index.js');
 const HTTP_CODES = require("../constants/http-codes");
 
 /* GET home page. */

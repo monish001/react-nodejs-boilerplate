@@ -7,9 +7,9 @@ const path = require("path");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const indexRoutes = require("./routes/index");
-const usersRoutes = require("./routes/users");
-const recordsRoutes = require("./routes/records");
+const indexController = require("./controllers/index");
+const usersController = require("./controllers/users");
+const recordsController = require("./controllers/records");
 const app = express();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -159,13 +159,13 @@ authz.addPolicy("nobody", ["noAccess"]);
 
  // TODO, apply authN as middleware in the routes.
  // Somehow, authZ check is getting error out even before authN check.
-app.use("/", indexRoutes);
+app.use("/", indexController);
 app.use(
   "/api/users/:userId/records", authz.enforcePolicy("crud records by self"),
-  recordsRoutes
+  recordsController
 );
-app.use("/api/records", authz.enforcePolicy("crud all records"), recordsRoutes);
-app.use("/api/users", authz.enforcePolicy("crud user"), usersRoutes);
+app.use("/api/records", authz.enforcePolicy("crud all records"), recordsController);
+app.use("/api/users", authz.enforcePolicy("crud user"), usersController);
 
 // error handler
 app.use(function (err, req, res, next) {
