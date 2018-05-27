@@ -4,13 +4,13 @@ module.exports = {
     // POST /records
     post: {
         body: {
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required().example('116fa1c6-82aa-4288-afea-c1d9477fb05d') ,
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).required().example('116fa1c6-82aa-4288-afea-c1d9477fb05d') ,
             DistanceInMiles: Joi.number().positive().required(),
             TimeDurationInMinutes: Joi.number().positive().required()
         },
         params: {
             // required for REGULAR_USER role.
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d') 
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d') 
         }
     },
 
@@ -33,7 +33,7 @@ module.exports = {
         },
         params: {
             // REGULAR_USER required to sent UserId in params
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d')
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d')
         }
     },
 
@@ -51,7 +51,7 @@ module.exports = {
         },
         params: {
             // REGULAR_USER required to sent UserId in params
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d')
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d')
         }
     },
 
@@ -63,7 +63,7 @@ module.exports = {
         },
         params: {
             // REGULAR_USER required to sent UserId in params
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d')
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).optional().example('116fa1c6-82aa-4288-afea-c1d9477fb05d')
         }
     }
 };

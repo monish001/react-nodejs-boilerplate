@@ -83,7 +83,7 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue, sortVa
         keyConditionExpression += " and #id2 = :id2";
       }
     }
-    const params = {
+    let params = {
       TableName: tableName,
       KeyConditionExpression: keyConditionExpression,
       ExpressionAttributeNames: {
@@ -92,10 +92,13 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue, sortVa
       },
       ExpressionAttributeValues: {
         ":id": partitionValue,
-        ":id2": sortValue,
-        ":id3": sortValue2
+        ":id2": sortValue
       }
     };
+    if(sortOperator === 'BETWEEN') {
+      params.ExpressionAttributeValues[":id3"] = sortValue2;
+    }
+    params = JSON.parse(JSON.stringify(params));
     debug('get: query params', params);
     docClient.query(params, function(err, data) {
       if (err) {

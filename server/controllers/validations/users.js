@@ -5,7 +5,7 @@ module.exports = {
     post: {
         body: {
             // admin can create a user.
-            Email: Joi.email().required(),
+            Email: Joi.string().email().required(),
             UserName: Joi.string().required(),
             Password: Joi.string().required()
         }
@@ -15,7 +15,7 @@ module.exports = {
     get: {
         params: {
             // admin can get all users or single user.
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional()
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).optional()
         }
     },
 
@@ -23,10 +23,10 @@ module.exports = {
     put: {
         // admin can modify user email, username, password
         params: {
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).required()
         },
         body: {
-            Email: Joi.email().required(),
+            Email: Joi.string().email().required(),
             UserName: Joi.string().required(),
             Password: Joi.string().required()
         }
@@ -35,7 +35,7 @@ module.exports = {
     _delete: {
         // admin can remove user
         params: {
-            UserId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).required()
         }
     }
 };
