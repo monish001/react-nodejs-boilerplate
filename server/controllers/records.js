@@ -25,7 +25,7 @@ router.get("/", validate(validations.get), (req, res, next) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", validate(validations.post), (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   recordApi
@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.put("/", (req, res) => {
+router.put("/", validate(validations.put), (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   const reqQuery = req.query;
@@ -62,7 +62,7 @@ router.put("/", (req, res) => {
     });
 });
 
-router.delete("/", (req, res) => {
+router.delete("/", validate(validations._delete), (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   const reqQuery = req.query;

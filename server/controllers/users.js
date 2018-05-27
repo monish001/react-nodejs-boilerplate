@@ -3,9 +3,11 @@ const express = require("express");
 const router = express.Router();
 const userApi = require("../crud/users");
 const debug = require('debug')('monish-gupta:server:controllers:users.js');
+const validations = require('./validations/users');
+const validate = require('express-validation');
 
 /* GET all listing. */
-router.get("/", (req, res, next) => {
+router.get("/", validate(validations.get), (req, res, next) => {
   userApi
     .get()
     .then(data => {
@@ -23,7 +25,7 @@ router.get("/", (req, res, next) => {
 /**
  * Create user should not be exposed. Check /register route instead.
  */
-// router.post("/", (req, res) => {
+// router.post("/", validate(validations.post), (req, res) => {
 //   const reqBody = req.body;
 //   const reqParams = req.params;
 //   userApi
@@ -40,7 +42,7 @@ router.get("/", (req, res, next) => {
 //     });
 // });
 
-router.get("/:userId", (req, res) => {
+router.get("/:userId", validate(validations.get), (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   userApi
@@ -57,7 +59,7 @@ router.get("/:userId", (req, res) => {
     });
 });
 
-router.put("/:userId", (req, res) => {
+router.put("/:userId", validate(validations.put), (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   userApi
@@ -74,7 +76,7 @@ router.put("/:userId", (req, res) => {
     });
 });
 
-router.delete("/:userId", (req, res) => {
+router.delete("/:userId", validate(validations._delete), (req, res) => {
   const reqBody = req.body;
   const reqParams = req.params;
   userApi
