@@ -98,6 +98,7 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue, sortVa
     if(sortOperator === 'BETWEEN') {
       params.ExpressionAttributeValues[":id3"] = sortValue2;
     }
+    debug('get: query params', params);
     params = JSON.parse(JSON.stringify(params));
     debug('get: query params', params);
     docClient.query(params, function(err, data) {

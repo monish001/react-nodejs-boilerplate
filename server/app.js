@@ -149,8 +149,8 @@ authz.addRule("regular user", function (req) {
 
 // Syntax: authz.addPolicy(policyName, [roles]);
 authz.addPolicy("allAccess", ["allAccess"]);
-authz.addPolicy("crud user", ["admin"]);
-authz.addPolicy("crud all records", ["admin", "user manager"]);
+authz.addPolicy("crud user", ["admin", "user manager"]);
+authz.addPolicy("crud all records", ["admin"]);
 authz.addPolicy("crud records by self", ["regular user"]);
 authz.addPolicy("nobody", ["noAccess"]);
 /** 
