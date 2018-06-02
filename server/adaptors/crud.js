@@ -10,12 +10,12 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const post = (tableName, document) => {
   debug('post params', tableName, document);
   const promise1 = new Promise(function(resolve, reject) {
-    debug("Adding a new item...");
     document.CreatedTimeStamp = document.LastModifiedTimeStamp = new Date().toISOString();
     const params = {
       TableName: tableName,
       Item: document
     };
+    debug("Adding a new item...", params);
     docClient.put(params, function(err, data) {
       if (err) {
         debug("ERROR", 
@@ -48,6 +48,7 @@ const getByAttribute = (tableName, indexName, partitionKey, partitionValue, sort
         ":id2": sortValue,
       }
     };
+    debug('getByAttribute...', params);
     docClient.query(params, function(err, data) {
       if (err) {
         debug("ERROR", "Unable to query. Error:", JSON.stringify(err, null, 2));
@@ -117,10 +118,10 @@ const get = (tableName, partitionKey, partitionValue, sortKey, sortValue, sortVa
 const getAll = tableName => {
   debug('getAll params', tableName);
   const promise1 = new Promise(function(resolve, reject) {
-    debug("Get items...");
     const params = {
       TableName: tableName
     };
+    debug("Get items...", params);
     docClient.scan(params, function(err, data) {
       if (err) {
         debug("ERROR ", 
@@ -163,7 +164,6 @@ const getUpdateExpression = document => {
 const put = (tableName, document, partitionKey, partitionValue, sortKey, sortValue) => {
   debug('put params', tableName, document, partitionKey, partitionValue, sortKey, sortValue);
   const promise1 = new Promise(function(resolve, reject) {
-    debug("Updating the item...");
     const keys = {};
     keys[partitionKey] = partitionValue;
     keys[sortKey] = sortValue;
@@ -176,6 +176,7 @@ const put = (tableName, document, partitionKey, partitionValue, sortKey, sortVal
       ExpressionAttributeValues: updateExpression.ExpressionAttributeValues,
       ReturnValues: "UPDATED_NEW"
     };
+    debug("Updating the item...", params);
     docClient.update(params, function(err, data) {
       if (err) {
         debug("ERROR ", 
@@ -195,7 +196,6 @@ const put = (tableName, document, partitionKey, partitionValue, sortKey, sortVal
 const remove = (tableName, partitionKey, partitionValue, sortKey, sortValue) => {
   debug('remove params', tableName, partitionKey, partitionValue, sortKey, sortValue);
   const promise1 = new Promise(function(resolve, reject) {
-    debug("Delete an item...");
     const keys = {};
     keys[partitionKey] = partitionValue;
     keys[sortKey] = sortValue;
@@ -203,6 +203,7 @@ const remove = (tableName, partitionKey, partitionValue, sortKey, sortValue) => 
       TableName: tableName,
       Key: keys,
     };
+    debug("Delete an item...", params);    
     docClient.delete(params, function(err, data) {
       if (err) {
         debug("ERROR ", 
