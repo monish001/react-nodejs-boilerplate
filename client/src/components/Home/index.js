@@ -60,21 +60,20 @@ class Home extends Component {
 
   getElSpeedThisWeek() {
     const { timeSpentThisWeek, distanceThisWeek } = this.state;
-    const speedThisWeek = distanceThisWeek && (distanceThisWeek / timeSpentThisWeek);
-    let elSpeedThisWeek;
-    if (speedThisWeek) {
-      elSpeedThisWeek = (
-        <div>
-          Average Speed this week - {speedThisWeek} miles/min.
-        </div>
-      );
+    const speedThisWeek = timeSpentThisWeek && (distanceThisWeek / timeSpentThisWeek);
+    let speedThisWeekTitle;
+    if (!speedThisWeek) {
+      speedThisWeekTitle = 'No records';
+    } else if (speedThisWeek === 1) {
+      speedThisWeekTitle = `${speedThisWeek.toPrecision(2)} mile/min.`;
     } else {
-      elSpeedThisWeek = (
-        <div>
-          Average Speed this week - No records.
-        </div>
-      );
+      speedThisWeekTitle = `${speedThisWeek.toPrecision(2)} miles/min.`;
     }
+    const elSpeedThisWeek = (
+      <div>
+        Average Speed this week - {speedThisWeekTitle}
+      </div>
+    );
     return elSpeedThisWeek;
   }
 
