@@ -1,6 +1,9 @@
 const Joi = require('joi');
 const CONSTANTS = require("../../constants/common");
 
+// Credits to validation method mentioned in below link
+// http://blog.mpayetta.com/node.js/restful/express/joi/2016/07/28/building-a-node-restful-api-request-validation/
+
 module.exports = {
     // POST /records
     post: {

@@ -63,3 +63,4 @@ CreatedTimeStamp | String ||
 ### UI loader
 ### 401 on API call should open up login page.
 ### Storage.getUser() error should open up login page.
+### UTs - https://solidgeargroup.com/mocha-javascript-unit-testing
