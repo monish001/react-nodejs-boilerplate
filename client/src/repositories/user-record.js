@@ -7,11 +7,13 @@ import * as BaseRepository from './base';
 /**
  * get
  */
-export function read(createdTimeStamp) {
+export function read(createdTimeStamp, createdTimeStampFrom, createdTimeStampTo) {
   const userId = UserRepository.getUserId();
   const request = {
     UserId: userId,
     CreatedTimeStamp: createdTimeStamp,
+    CreatedTimeStampFrom: createdTimeStampFrom,
+    CreatedTimeStampTo: createdTimeStampTo,
   };
   // console.log('records get', request);
   return http.get(`/api/users/${userId}/records`, { params: request }, { headers: BaseRepository.getHeaders() });

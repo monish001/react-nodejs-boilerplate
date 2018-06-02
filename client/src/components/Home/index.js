@@ -3,26 +3,64 @@ import { Link } from 'react-router-dom';
 import './style.css';
 import Nav from '../Nav';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
+import * as UserRecordsRepository from '../../repositories/user-record';
+import * as Utilities from '../../utilities';
 
 class Home extends Component {
-  render() {
-    let distanceThisWeek; //= 50;
-    let elDistanceThisWeek;
-    if (distanceThisWeek) {
-      elDistanceThisWeek = (
-        <div>
-          Distance covered this week - {distanceThisWeek} miles.
-        </div>
-      );
-    } else {
-      elDistanceThisWeek = (
-        <div>
-          Distance covered this week - No records.
-        </div>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      distanceThisWeek: null,
+      timeSpentThisWeek: null,
+    };
+    this.getElDistanceThisWeek = this.getElDistanceThisWeek.bind(this);
+    this.getElSpeedThisWeek = this.getElSpeedThisWeek.bind(this);
+  }
 
-    let speedThisWeek;
+  componentWillMount() {
+    const { weekStart, weekEnd } = Utilities.getWeekStartEndDates();
+
+    // TODO loader
+    UserRecordsRepository
+      .read(null, weekStart, weekEnd)
+      .then((response) => {
+        const responseData = (response && response.data) || [];
+        console.log(responseData);
+        let totalDistance = 0;
+        let totalTime = 0;
+        responseData.forEach((record) => {
+          totalDistance += record.DistanceInMiles;
+          totalTime += record.TimeDurationInMinutes;
+        });
+
+        this.setState({
+          distanceThisWeek: totalDistance,
+          timeSpentThisWeek: totalTime,
+        });
+      }).catch(err => console.error(err));
+  }
+
+  getElDistanceThisWeek() {
+    const { distanceThisWeek } = this.state;
+    let distanceThisWeekTitle;
+    if (!distanceThisWeek) {
+      distanceThisWeekTitle = 'No records.';
+    } else if (distanceThisWeek === 1) {
+      distanceThisWeekTitle = `${distanceThisWeek} mile.`;
+    } else {
+      distanceThisWeekTitle = `${distanceThisWeek} miles.`;
+    }
+    const elDistanceThisWeek = (
+      <div>
+        Distance covered this week - {distanceThisWeekTitle}
+      </div>
+    );
+    return elDistanceThisWeek;
+  }
+
+  getElSpeedThisWeek() {
+    const { timeSpentThisWeek, distanceThisWeek } = this.state;
+    const speedThisWeek = distanceThisWeek && (distanceThisWeek / timeSpentThisWeek);
     let elSpeedThisWeek;
     if (speedThisWeek) {
       elSpeedThisWeek = (
@@ -37,6 +75,13 @@ class Home extends Component {
         </div>
       );
     }
+    return elSpeedThisWeek;
+  }
+
+  render() {
+    const elDistanceThisWeek = this.getElDistanceThisWeek();
+    const elSpeedThisWeek = this.getElSpeedThisWeek();
+
     return (
       <div className="App">
         <EnsureLoggedInContainer />
