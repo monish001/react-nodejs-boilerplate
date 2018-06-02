@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const CONSTANTS = require("../../constants/common");
 
 module.exports = {
     // POST /records
@@ -15,7 +16,7 @@ module.exports = {
     get: {
         params: {
             // admin can get all users or single user.
-            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).optional()
+            UserId: Joi.string().regex(CONSTANTS.GUID_REGEX).optional()
         }
     },
 
@@ -23,7 +24,7 @@ module.exports = {
     put: {
         // admin can modify user email, username, password
         params: {
-            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).required()
+            UserId: Joi.string().regex(CONSTANTS.GUID_REGEX).required()
         },
         body: {
             Email: Joi.string().email().required(),
@@ -35,7 +36,7 @@ module.exports = {
     _delete: {
         // admin can remove user
         params: {
-            UserId: Joi.string().regex(/^[-0-9a-fA-F]{36}$/).required()
+            UserId: Joi.string().regex(CONSTANTS.GUID_REGEX).required()
         }
     }
 };
