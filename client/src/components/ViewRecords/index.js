@@ -68,16 +68,18 @@ class ViewRecords extends Component {
       content = (
         <ul className="no-list-style-type">
           <li key={-1}>
-            Date | Distance (in miles) | Time (in mins) | Actions
+            Date | Distance (in miles) | Time (in mins) | Average Speed | Actions
           </li>
           {records.map((record) => {
             const { CreatedTimeStamp, DistanceInMiles, TimeDurationInMinutes } = record;
             const key = `${CreatedTimeStamp}::${UserId}`;
+            const averageSpeed = DistanceInMiles &&
+              (DistanceInMiles / TimeDurationInMinutes).toPrecision(2);
             return (
               <li key={key}>
-                {`${new Date(CreatedTimeStamp)} | ${DistanceInMiles} | ${TimeDurationInMinutes} | `}
-                <Link to={`/records/edit/${CreatedTimeStamp}`}>Edit</Link>{' | '}
-                <a href="#" onClick={e => this.onRemove(e, CreatedTimeStamp)}>Remove</a>
+                {`${new Date(CreatedTimeStamp)} | ${DistanceInMiles} | ${TimeDurationInMinutes} | ${averageSpeed} | `}
+                <Link href="# " to={`/records/edit/${CreatedTimeStamp}`}>Edit</Link>{' | '}
+                <a href="# " onClick={e => this.onRemove(e, CreatedTimeStamp)}>Remove</a>
               </li>
             );
           })}
