@@ -1,6 +1,5 @@
 import http from 'axios';
 // import * as Constants from "../constants/Constants";
-import * as uuid from 'node-uuid';
 import * as UserRepository from './user';
 import * as BaseRepository from './base';
 

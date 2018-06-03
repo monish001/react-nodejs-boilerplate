@@ -36,7 +36,9 @@ class Home extends Component {
           _distanceInMiles: responseData.DistanceInMiles,
           _timeDurationInMinutes: responseData.TimeDurationInMinutes,
         });
-      }).catch(err => console.error(err));
+      }).catch((err) => {
+        console.error(err);
+      });
   }
 
   onSave() {
@@ -57,6 +59,7 @@ class Home extends Component {
       })
       .catch((err) => {
         console.error(err); // TODO
+
         // revert the UI fields
         this.setState({
           timeDurationInMinutes: _timeDurationInMinutes,

@@ -9,7 +9,7 @@ class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToLogin: false
+      goToLogin: false,
     };
     this.logout = this.logout.bind(this);
   }
@@ -37,7 +37,7 @@ class Nav extends Component {
         <div className="nav">
           Hi {username} |
           <Link to="/">Home</Link> |
-          <a href="#" onClick={this.logout}>Logout</a>
+          <a href="# " onClick={this.logout}>Logout</a>
         </div>
       );
     }

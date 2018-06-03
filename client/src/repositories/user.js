@@ -1,5 +1,4 @@
 import http from 'axios';
-import * as uuid from 'node-uuid';
 import * as StorageHelper from '../adaptors/storage';
 import * as BaseRepository from './base';
 
