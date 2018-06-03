@@ -66,24 +66,37 @@ class ViewRecords extends Component {
 
     if (records.length > 0) {
       content = (
-        <ul className="no-list-style-type">
-          <li key={-1}>
-            Date | Distance (in miles) | Time (in mins) | Average Speed | Actions
-          </li>
-          {records.map((record) => {
-            const { CreatedTimeStamp, DistanceInMiles, TimeDurationInMinutes } = record;
-            const key = `${CreatedTimeStamp}::${UserId}`;
-            const averageSpeed = DistanceInMiles &&
-              (DistanceInMiles / TimeDurationInMinutes).toPrecision(2);
-            return (
-              <li key={key}>
-                {`${new Date(CreatedTimeStamp)} | ${DistanceInMiles} | ${TimeDurationInMinutes} | ${averageSpeed} | `}
-                <Link href="# " to={`/records/edit/${CreatedTimeStamp}`}>Edit</Link>{' | '}
-                <a href="# " onClick={e => this.onRemove(e, CreatedTimeStamp)}>Remove</a>
-              </li>
-            );
-          })}
-        </ul>
+        <table className="margin-auto">
+          <thead>
+            <tr key={-1}>
+              <th>Date</th>
+              <th>Distance (in miles)</th>
+              <th>Time (in mins)</th>
+              <th>Average Speed</th>
+              <th className="jgr--view-records--actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {records.map((record) => {
+              const { CreatedTimeStamp, DistanceInMiles, TimeDurationInMinutes } = record;
+              const key = `${CreatedTimeStamp}::${UserId}`;
+              const averageSpeed = DistanceInMiles &&
+                (DistanceInMiles / TimeDurationInMinutes).toPrecision(2);
+              return (
+                <tr key={key}>
+                  <td>{`${new Date(CreatedTimeStamp)}`}</td>
+                  <td>{`${DistanceInMiles}`}</td>
+                  <td>{`${TimeDurationInMinutes}`}</td>
+                  <td>{`${averageSpeed}`}</td>
+                  <td>
+                    <Link href="# " to={`/records/edit/${CreatedTimeStamp}`}>Edit</Link>{' | '}
+                    <a href="# " onClick={e => this.onRemove(e, CreatedTimeStamp)}>Remove</a>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       );
     } else {
       content = 'No records';
