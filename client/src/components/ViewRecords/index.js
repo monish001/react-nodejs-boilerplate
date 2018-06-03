@@ -20,7 +20,7 @@ class ViewRecords extends Component {
     UserRecordsRepository
       .read()
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({
           records: response.data,
         });

@@ -25,7 +25,7 @@ class Home extends Component {
       .read(null, weekStart, weekEnd)
       .then((response) => {
         const responseData = (response && response.data) || [];
-        console.log(responseData);
+        // console.log(responseData);
         let totalDistance = 0;
         let totalTime = 0;
         responseData.forEach((record) => {
