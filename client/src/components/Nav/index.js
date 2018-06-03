@@ -35,16 +35,16 @@ class Nav extends Component {
     if (isLoggedIn) {
       return (
         <div className="nav">
-          Hi {username} |
-          <Link to="/">Home</Link> |
+          Hi {username} |{' '}
+          <Link href="# " to="/">Home</Link> |{' '}
           <a href="# " onClick={this.logout}>Logout</a>
         </div>
       );
     }
     return (
       <div>
-        <Link to="/login">Login</Link> |
-        <Link to="/register">Register</Link>
+        <Link href="# " to="/login">Login</Link> |{' '}
+        <Link href="# " to="/register">Register</Link>
       </div>
     );
   }
