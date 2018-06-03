@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import Nav from '../Nav';
+import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as UserRecordsRepository from '../../repositories/user-record';
 
@@ -70,7 +70,7 @@ class Home extends Component {
     return (
       <div className="edit-record-page">
         <EnsureLoggedInContainer />
-        <Nav />
+        <Header />
         <main>
           <h3>Edit Record</h3>
         </main>

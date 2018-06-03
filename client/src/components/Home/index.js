@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
-import Nav from '../Nav';
+import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as UserRecordsRepository from '../../repositories/user-record';
 import * as Utilities from '../../utilities';
@@ -84,7 +84,7 @@ class Home extends Component {
     return (
       <div className="App">
         <EnsureLoggedInContainer />
-        <Nav />
+        <Header />
         <main>
           <h3>Home</h3>
         </main>

@@ -4,7 +4,7 @@ import './style.css';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as Repository from '../../repositories/user';
 import * as UserRecordsRepository from '../../repositories/user-record';
-import Nav from '../Nav';
+import Header from '../Header';
 
 class ViewRecords extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ class ViewRecords extends Component {
     return (
       <div className="App">
         <EnsureLoggedInContainer />
-        <Nav />
+        <Header />
         <main>
           <h3>Records:</h3>
         </main>

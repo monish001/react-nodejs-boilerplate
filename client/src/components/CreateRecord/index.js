@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import './style.css';
-import Nav from '../Nav';
+import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as Repository from '../../repositories/user-record';
 
@@ -35,7 +35,7 @@ class Home extends Component {
     return (
       <div className="create-record-page">
         <EnsureLoggedInContainer />
-        <Nav />
+        <Header />
         <main>
           <h3>Create Record</h3>
         </main>
