@@ -10,13 +10,13 @@
     "build": "cd client && npm run build && cd .."
   },
   "dependencies": {
-    "aws-sdk": "^2.224.1",
+    "aws-sdk": "^2.250.1",
     "bcrypt": "^1.0.3",
-    "body-parser": "~1.17.1",
+    "body-parser": "^1.18.3",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
-    "express": "~4.15.2",
+    "express": "^4.16.3",
     "express-authz": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validation": "^0.4.5",

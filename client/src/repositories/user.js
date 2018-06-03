@@ -37,5 +37,6 @@ export function logout() {
  * getUserId
  */
 export function getUserId() {
-  return StorageHelper.getItem('user').Id;
+  const userObj = StorageHelper.getItem('user');
+  return userObj && userObj.Id;
 }
