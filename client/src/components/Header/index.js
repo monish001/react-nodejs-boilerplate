@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Nav from '../Nav';
+import NotificationsBar from '../NotificationsBar';
 import './style.css';
 
 class Header extends Component {
@@ -13,6 +14,7 @@ class Header extends Component {
     return (
       <div>
         <Nav />
+        <NotificationsBar />
       </div>
     );
   }

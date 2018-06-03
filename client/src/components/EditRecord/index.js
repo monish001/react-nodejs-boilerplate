@@ -1,3 +1,5 @@
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import './style.css';
 import Header from '../Header';
@@ -27,7 +29,7 @@ class Home extends Component {
       .read(createdTimeStamp)
       .then((response) => {
         const responseData = response && response.data && response.data.length && response.data[0];
-        console.log(responseData);
+        // console.log(responseData);
         this.setState({
           distanceInMiles: responseData.DistanceInMiles,
           timeDurationInMinutes: responseData.TimeDurationInMinutes,
@@ -43,7 +45,11 @@ class Home extends Component {
       timeDurationInMinutes, distanceInMiles, createdTimeStamp,
     } = this.state;
     UserRecordsRepository.update(createdTimeStamp, { timeDurationInMinutes, distanceInMiles })
-      .then(() => { // TODO: show success message
+      .then(() => {
+        this.props.dispatch({
+          type: 'ADD_NOTIFICATION',
+          notificationMessage: 'Record updated successfully!',
+        });
         this.setState({
           _timeDurationInMinutes: timeDurationInMinutes,
           _distanceInMiles: distanceInMiles,
@@ -90,4 +96,19 @@ class Home extends Component {
   }
 }
 
-export default Home;
+
+// Specifies the default values for props:
+Home.defaultProps = {
+  dispatch: null,
+};
+
+Home.propTypes = {
+  dispatch: PropTypes.func,
+};
+
+function mapStateToProps() {
+  return {
+  };
+}
+
+export default connect(mapStateToProps)(Home);
