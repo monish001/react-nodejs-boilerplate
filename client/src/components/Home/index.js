@@ -5,6 +5,41 @@ import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as UserRecordsRepository from '../../repositories/user-record';
 import * as Utilities from '../../utilities';
+import * as StorageHelper from '../../adaptors/storage';
+
+function getContentDomForUserManager() {
+  return (
+    <section>
+      <ul className="no-list-style-type">
+        <li>
+          <Link href="# " to="/users/view">View Users</Link>
+        </li>
+        <li>
+          <Link href="# " to="/users/create">Create New User</Link>
+        </li>
+      </ul>
+    </section>);
+}
+
+function getContentDomForAdmin() {
+  return (
+    <section>
+      <ul className="no-list-style-type">
+        <li>
+          <Link href="# " to="/users/view">View Users</Link>
+        </li>
+        <li>
+          <Link href="# " to="/users/create">Create New User</Link>
+        </li>
+        <li>
+          <Link href="# " to="/records/view">View Records</Link>
+        </li>
+        <li>
+          <Link href="# " to="/records/create">Create New Record</Link>
+        </li>
+      </ul>
+    </section>);
+}
 
 class Home extends Component {
   constructor(props) {
@@ -77,9 +112,36 @@ class Home extends Component {
     return elSpeedThisWeek;
   }
 
-  render() {
+  getContentDomForRegularUser() {
     const elDistanceThisWeek = this.getElDistanceThisWeek();
     const elSpeedThisWeek = this.getElSpeedThisWeek();
+    return (
+      <section>
+        {elDistanceThisWeek}
+        {elSpeedThisWeek}
+        <ul className="no-list-style-type">
+          <li>
+            <Link href="# " to="/records/view">View Records</Link>
+          </li>
+          <li>
+            <Link href="# " to="/records/create">Create New Record</Link>
+          </li>
+        </ul>
+      </section>);
+  }
+
+  render() {
+    const user = StorageHelper.getItem('user');
+    const userRole = user && user.Role;
+    let elContent = '';
+
+    if (userRole === 'REGULAR_USER') {
+      elContent = this.getContentDomForRegularUser();
+    } else if (userRole === 'USER_MANAGER') {
+      elContent = getContentDomForUserManager();
+    } else if (userRole === 'ADMIN') {
+      elContent = getContentDomForAdmin();
+    }
 
     return (
       <div className="App">
@@ -88,18 +150,7 @@ class Home extends Component {
         <main>
           <h3>Home</h3>
         </main>
-        <section>
-          {elDistanceThisWeek}
-          {elSpeedThisWeek}
-          <ul className="no-list-style-type">
-            <li>
-              <Link to="/records/view">View Records</Link>
-            </li>
-            <li>
-              <Link to="/records/create">Create New</Link>
-            </li>
-          </ul>
-        </section>
+        {elContent}
       </div>
     );
   }
