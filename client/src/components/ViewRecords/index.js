@@ -44,7 +44,7 @@ class ViewRecords extends Component {
   }
 
   render() {
-    // TODO: move to proptypes
+    // TODO: move to prop-types
     // CreatedTimeStamp
     // :
     // 1515924253213

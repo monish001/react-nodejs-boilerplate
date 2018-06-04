@@ -1,21 +1,48 @@
 # Jogger App
+
 Basic Jogger App
 
 ## Contents
+
 1. [How to run locally](#how-to-run-locally)
+
 2. [Deployment](#deployment)
 
 ## How to run locally
+
 `DEBUG=monish-gupta:* npm run dev`
 Open http://localhost:3000 to test changes.
 
-## Running optimised version
+## Running optimized version
+
 `npm run build && npm start`
 Open http://localhost:3001 to test changes.
 
 ## Demo
 
+todo
+
+## Requirements
+
+Regular user role
+
+    register | login
+    C with date, distance, time
+    R own records with d, d, t, avg. speed. Filter by dates from-to.
+    UD own records
+User manager role
+
+    CRUD users
+Administrator role
+
+    C with date, distance, time
+    R all records with d, d, t, avg. speed. Filter by dates from-to.
+    UD all records
+    CRUD users
+~~Report on average speed & distance per week.~~ Report on avg. speed & distance this week.
+
 ## APIs
+
 Route                                                                   | HTTP Verb |Description                                |Policy              |Rules              |
 ---                                                                     | ---   | ---                                           | ---                | ---               |
 /api/users                                                              | GET   | Get all the users.                            |crud user           |admin              |
@@ -37,6 +64,7 @@ Route                                                                   | HTTP V
 
 ## DB Schema
 ### Table JoggerAppRecord
+
 Column Name|Data Type|Key Type
 ---|---|---
 UserId | String | Primary partition key
@@ -46,6 +74,7 @@ LastModifiedTimeStamp | String |
 CreatedTimeStamp | String | Primary sort key
 
 ### Table JoggerAppUser
+
 Column Name|Data Type|Key Type|Comments
 ---|---|---|---
 Id | String |Primary partition key|
@@ -56,11 +85,20 @@ LastModifiedTimeStamp | String ||
 CreatedTimeStamp | String || 
 
 ## Todo
+
 ### add authN api & UI routes to the list 
+
 ### UI
-### Understand authN token flow and any improvements.
+
+### Understand authN token flow and any improvements
+
 ### Server side validations
+
 ### UI loader
-### 401 on API call should open up login page.
-### Storage.getUser() error should open up login page.
+
+### 401 on API call should open up login page
+
+### Storage.getUser() error should open up login page
+
 ### UTs - https://solidgeargroup.com/mocha-javascript-unit-testing
+
