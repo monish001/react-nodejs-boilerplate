@@ -39,3 +39,52 @@ export function getUserId() {
   const userObj = StorageHelper.getItem('user');
   return userObj && userObj.Id;
 }
+
+/**
+ * get
+ */
+export function read() {
+  const userId = getUserId();
+  // console.log('records get', request);
+  return http.get(`/api/users/${userId}`, {}, { headers: BaseRepository.getHeaders() });
+}
+
+/**
+ * get
+ */
+export function readAll() {
+  // console.log('users readAll', request);
+  return http.get('/api/users', {}, { headers: BaseRepository.getHeaders() });
+}
+
+/**
+ * createRecord
+ */
+export function create(args) {
+  const userId = getUserId();
+  const request = {
+    UserId: userId,
+    DistanceInMiles: args.distance,
+    TimeDurationInMinutes: args.time,
+  };
+  return http.post(`/api/users/${userId}/records`, request, { headers: BaseRepository.getHeaders() });
+}
+
+/**
+ * remove
+ */
+export function remove(userId) {
+  return http.delete(`/api/users/${userId}`, {}, { headers: BaseRepository.getHeaders() });
+}
+
+/**
+ * update
+ */
+export function update(createdTimeStamp, data) {
+  const userId = getUserId();
+  const request = {
+    DistanceInMiles: data.distanceInMiles,
+    TimeDurationInMinutes: data.timeDurationInMinutes,
+  };
+  return http.put(`/api/users/${userId}/records?UserId=${userId}&CreatedTimeStamp=${createdTimeStamp}`, request, { headers: BaseRepository.getHeaders() });
+}

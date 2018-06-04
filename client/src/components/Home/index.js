@@ -48,31 +48,12 @@ class Home extends Component {
       distanceThisWeek: null,
       timeSpentThisWeek: null,
     };
+    this.fetchUserRecords = this.fetchUserRecords.bind(this);
     this.getElDistanceThisWeek = this.getElDistanceThisWeek.bind(this);
     this.getElSpeedThisWeek = this.getElSpeedThisWeek.bind(this);
   }
 
   componentWillMount() {
-    const { weekStart, weekEnd } = Utilities.getWeekStartEndDates();
-
-    // TODO loader
-    UserRecordsRepository
-      .read(null, weekStart, weekEnd)
-      .then((response) => {
-        const responseData = (response && response.data) || [];
-        // console.log(responseData);
-        let totalDistance = 0;
-        let totalTime = 0;
-        responseData.forEach((record) => {
-          totalDistance += record.DistanceInMiles;
-          totalTime += record.TimeDurationInMinutes;
-        });
-
-        this.setState({
-          distanceThisWeek: totalDistance,
-          timeSpentThisWeek: totalTime,
-        });
-      }).catch(err => console.error(err));
   }
 
   getElDistanceThisWeek() {
@@ -113,6 +94,7 @@ class Home extends Component {
   }
 
   getContentDomForRegularUser() {
+    this.fetchUserRecords();
     const elDistanceThisWeek = this.getElDistanceThisWeek();
     const elSpeedThisWeek = this.getElSpeedThisWeek();
     return (
@@ -128,6 +110,29 @@ class Home extends Component {
           </li>
         </ul>
       </section>);
+  }
+
+  fetchUserRecords() {
+    const { weekStart, weekEnd } = Utilities.getWeekStartEndDates();
+
+    // TODO loader
+    UserRecordsRepository
+      .read(null, weekStart, weekEnd)
+      .then((response) => {
+        const responseData = (response && response.data) || [];
+        // console.log(responseData);
+        let totalDistance = 0;
+        let totalTime = 0;
+        responseData.forEach((record) => {
+          totalDistance += record.DistanceInMiles;
+          totalTime += record.TimeDurationInMinutes;
+        });
+
+        this.setState({
+          distanceThisWeek: totalDistance,
+          timeSpentThisWeek: totalTime,
+        });
+      }).catch(err => console.error(err));
   }
 
   render() {
