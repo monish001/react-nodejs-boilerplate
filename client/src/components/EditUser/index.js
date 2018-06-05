@@ -4,57 +4,41 @@ import React, { Component } from 'react';
 import './style.css';
 import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
-import * as UserRecordsRepository from '../../repositories/user-record';
+import * as UsersRepository from '../../repositories/user';
 
-class Home extends Component {
+class EditUser extends Component {
   constructor(props) {
     super(props);
-    const createdTimeStamp = this.props.match.params.CreatedTimeStamp;
+    const { userId } = this.props.match.params;
     this.state = {
-      distanceInMiles: '',
-      timeDurationInMinutes: '',
-      _distanceInMiles: '', // to be used to store original values
-      _timeDurationInMinutes: '',
-      createdTimeStamp,
+      role: '',
+      userName: '',
+      _role: '', // to be used to store original values
+      _userName: '',
+      userId,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.fetchUser = this.fetchUser.bind(this);
   }
 
   componentWillMount() {
-    const { createdTimeStamp } = this.state;
-
-    // TODO loader
-    UserRecordsRepository
-      .read(createdTimeStamp)
-      .then((response) => {
-        const responseData = response && response.data && response.data.length && response.data[0];
-        // console.log(responseData);
-        this.setState({
-          distanceInMiles: responseData.DistanceInMiles,
-          timeDurationInMinutes: responseData.TimeDurationInMinutes,
-          _distanceInMiles: responseData.DistanceInMiles,
-          _timeDurationInMinutes: responseData.TimeDurationInMinutes,
-        });
-      }).catch((err) => {
-        console.error(err);
-      });
+    this.fetchUser();
   }
 
   onSave() {
     const {
-      _timeDurationInMinutes, _distanceInMiles,
-      timeDurationInMinutes, distanceInMiles, createdTimeStamp,
+      role, userName, _role, _userName, userId,
     } = this.state;
-    UserRecordsRepository.update(createdTimeStamp, { timeDurationInMinutes, distanceInMiles })
+    UsersRepository.update(userId, { Role: role, UserName: userName })
       .then(() => {
         this.props.dispatch({
           type: 'ADD_NOTIFICATION',
-          notificationMessage: 'Record updated successfully!',
+          notificationMessage: 'User updated successfully!',
         });
         this.setState({
-          _timeDurationInMinutes: timeDurationInMinutes,
-          _distanceInMiles: distanceInMiles,
+          _role: role,
+          _userName: userName,
         });
       })
       .catch((err) => {
@@ -62,8 +46,8 @@ class Home extends Component {
 
         // revert the UI fields
         this.setState({
-          timeDurationInMinutes: _timeDurationInMinutes,
-          distanceInMiles: _distanceInMiles,
+          role: _role,
+          userName: _userName,
         });
       });
   }
@@ -74,25 +58,52 @@ class Home extends Component {
     this.setState(newState);
   }
 
+  fetchUser() {
+    const { userId } = this.state;
+
+    // TODO loader
+    UsersRepository
+      .read(userId)
+      .then((response) => {
+        const responseData = response && response.data && response.data.length && response.data[0];
+        const {
+          Role,
+          UserName,
+        } = responseData;
+        this.setState({
+          role: Role,
+          userName: UserName,
+          _role: Role,
+          _userName: UserName,
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
+  }
+
   render() {
-    const { timeDurationInMinutes, distanceInMiles } = this.state;
+    const { role, userName } = this.state;
     return (
-      <div className="edit-record-page">
+      <div className="edit-user-page">
         <EnsureLoggedInContainer />
         <Header />
         <main>
-          <h3>Edit Record</h3>
+          <h3>Edit User</h3>
         </main>
         <section>
-          <label htmlFor="distance">
-            Distance (in miles):
-            <input id="distance" type="text" value={distanceInMiles} name="distance" onChange={e => this.handleChange(e, 'distanceInMiles')} />
+          <label htmlFor="user-name">
+            Username:
+            <input id="user-name" type="text" value={userName} name="user-name" onChange={e => this.handleChange(e, 'userName')} />
           </label>
-          <label htmlFor="time">
-            Time spent (in mins):
-            <input id="time" type="text" value={timeDurationInMinutes} name="time" onChange={e => this.handleChange(e, 'timeDurationInMinutes')} />
+          <label htmlFor="user-role">
+            Role:
+            <select id="user-role" type="text" value={role} name="user-role" onChange={e => this.handleChange(e, 'role')}>
+              <option value="REGULAR_USER">Regular user</option> {/* todo get list of roles from API. */}
+              <option value="USER_MANAGER">User manager</option>
+              <option value="ADMIN">Admin</option>
+            </select>
           </label>
-          <a href="#" onClick={this.onSave}>Save</a>
+          <a href="# " onClick={this.onSave}>Save</a>
         </section>
       </div>
     );
@@ -101,12 +112,17 @@ class Home extends Component {
 
 
 // Specifies the default values for props:
-Home.defaultProps = {
+EditUser.defaultProps = {
   dispatch: null,
 };
 
-Home.propTypes = {
+EditUser.propTypes = {
   dispatch: PropTypes.func,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps() {
@@ -114,4 +130,4 @@ function mapStateToProps() {
   };
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(EditUser);

@@ -2,17 +2,17 @@ const Joi = require('joi');
 const CONSTANTS = require("../../constants/common");
 
 module.exports = {
-    // POST /records
-    post: {
-        body: {
-            // admin can create a user.
-            Email: Joi.string().email().required(),
-            UserName: Joi.string().required(),
-            Password: Joi.string().required()
-        }
-    },
+    // POST /users
+    // post: {
+    //     body: {
+    //         // admin can create a user.
+    //         Email: Joi.string().email().required(),
+    //         UserName: Joi.string().required(),
+    //         Password: Joi.string().required()
+    //     }
+    // },
 
-    // GET /records
+    // GET /users
     get: {
         params: {
             // admin can get all users or single user.
@@ -20,16 +20,15 @@ module.exports = {
         }
     },
 
-    // PUT /records
+    // PUT /users
     put: {
         // admin can modify user email, username, password
         params: {
             userId: Joi.string().regex(CONSTANTS.GUID_REGEX).required()
         },
         body: {
-            Email: Joi.string().email().required(),
             UserName: Joi.string().required(),
-            Password: Joi.string().required()
+            Role: Joi.string().required()
         }
     },
 

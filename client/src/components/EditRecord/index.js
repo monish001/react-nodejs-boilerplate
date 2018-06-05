@@ -6,7 +6,7 @@ import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as UserRecordsRepository from '../../repositories/user-record';
 
-class Home extends Component {
+class EditRecord extends Component {
   constructor(props) {
     super(props);
     const createdTimeStamp = this.props.match.params.CreatedTimeStamp;
@@ -92,7 +92,7 @@ class Home extends Component {
             Time spent (in mins):
             <input id="time" type="text" value={timeDurationInMinutes} name="time" onChange={e => this.handleChange(e, 'timeDurationInMinutes')} />
           </label>
-          <a href="#" onClick={this.onSave}>Save</a>
+          <a href="# " onClick={this.onSave}>Save</a>
         </section>
       </div>
     );
@@ -101,12 +101,17 @@ class Home extends Component {
 
 
 // Specifies the default values for props:
-Home.defaultProps = {
+EditRecord.defaultProps = {
   dispatch: null,
 };
 
-Home.propTypes = {
+EditRecord.propTypes = {
   dispatch: PropTypes.func,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      CreatedTimeStamp: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps() {
@@ -114,4 +119,4 @@ function mapStateToProps() {
   };
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(EditRecord);

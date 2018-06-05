@@ -68,9 +68,9 @@ const remove = id => {
   return crud.remove(tableName, "Id", id);
 };
 const put = (id, args) => {
-  let document = (({ UserName, Password }) => ({ UserName, Password }))(args) // See https://stackoverflow.com/a/39333479/989139 for help on syntax
+  let document = (({ UserName, Password, Role }) => ({ UserName, Password, Role }))(args) // See https://stackoverflow.com/a/39333479/989139 for help on syntax
   
-  // TODO. Password reset & Role change later.
+  // TODO. Password reset change later.
   if(document.Password) { 
     const encryptedPassword = bcrypt.hashSync(document.Password, CONSTANTS.BCRYPT_ROUNDS);
     document.Password = encryptedPassword;

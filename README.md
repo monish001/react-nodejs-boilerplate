@@ -86,7 +86,7 @@ CreatedTimeStamp | String ||
 
 ## Todo
 
-### add authN api & UI routes to the list 
+### add authN api & UI routes to the list
 
 ### UI
 
@@ -101,4 +101,3 @@ CreatedTimeStamp | String ||
 ### Storage.getUser() error should open up login page
 
 ### UTs - https://solidgeargroup.com/mocha-javascript-unit-testing
-

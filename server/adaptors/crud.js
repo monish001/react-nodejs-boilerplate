@@ -147,18 +147,22 @@ const getAll = tableName => {
 };
 
 const getUpdateExpression = document => {
-  let UpdateExpression = "set LastModifiedTimeStamp = :LastModifiedTimeStamp";
+  let UpdateExpression = "set #LastModifiedTimeStamp = :LastModifiedTimeStamp";
   let ExpressionAttributeValues = {
     ":LastModifiedTimeStamp": new Date().toISOString()
+  };
+  let ExpressionAttributeNames = {
+    "#LastModifiedTimeStamp": "LastModifiedTimeStamp"
   };
   const ignore = ["Id", "LastModifiedTimeStamp", "CreatedTimeStamp"];
   for (key in document) {
     if (!ignore.find(elem => elem === key) && typeof(document[key]) !== 'undefined') {
-      UpdateExpression += ", " + key + " = :" + key + "";
+      UpdateExpression += ", #" + key + " = :" + key + "";
       ExpressionAttributeValues[":" + key] = document[key];
+      ExpressionAttributeNames["#" + key] = key;
     }
   }
-  return { UpdateExpression, ExpressionAttributeValues };
+  return { UpdateExpression, ExpressionAttributeValues, ExpressionAttributeNames };
 };
 
 const put = (tableName, document, partitionKey, partitionValue, sortKey, sortValue) => {
@@ -174,6 +178,7 @@ const put = (tableName, document, partitionKey, partitionValue, sortKey, sortVal
       Key: keys,
       UpdateExpression: updateExpression.UpdateExpression,
       ExpressionAttributeValues: updateExpression.ExpressionAttributeValues,
+      ExpressionAttributeNames: updateExpression.ExpressionAttributeNames,
       ReturnValues: "UPDATED_NEW"
     };
     debug("Updating the item...", params);

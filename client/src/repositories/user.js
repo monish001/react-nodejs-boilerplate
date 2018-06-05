@@ -43,9 +43,7 @@ export function getUserId() {
 /**
  * get
  */
-export function read() {
-  const userId = getUserId();
-  // console.log('records get', request);
+export function read(userId) {
   return http.get(`/api/users/${userId}`, {}, { headers: BaseRepository.getHeaders() });
 }
 
@@ -58,19 +56,6 @@ export function readAll() {
 }
 
 /**
- * createRecord
- */
-export function create(args) {
-  const userId = getUserId();
-  const request = {
-    UserId: userId,
-    DistanceInMiles: args.distance,
-    TimeDurationInMinutes: args.time,
-  };
-  return http.post(`/api/users/${userId}/records`, request, { headers: BaseRepository.getHeaders() });
-}
-
-/**
  * remove
  */
 export function remove(userId) {
@@ -80,11 +65,10 @@ export function remove(userId) {
 /**
  * update
  */
-export function update(createdTimeStamp, data) {
-  const userId = getUserId();
+export function update(userId, args) {
   const request = {
-    DistanceInMiles: data.distanceInMiles,
-    TimeDurationInMinutes: data.timeDurationInMinutes,
+    Role: args.Role,
+    UserName: args.UserName,
   };
-  return http.put(`/api/users/${userId}/records?UserId=${userId}&CreatedTimeStamp=${createdTimeStamp}`, request, { headers: BaseRepository.getHeaders() });
+  return http.put(`/api/users/${userId}`, request, { headers: BaseRepository.getHeaders() });
 }
