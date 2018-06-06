@@ -11,3 +11,20 @@ export function getItem(key) {
 export function removeItem(key) {
   window.sessionStorage.removeItem(key);
 }
+
+/**
+ * getUserId
+ */
+export function getUserId() {
+  const userObj = getItem('user');
+  return userObj && userObj.Id;
+}
+
+/**
+ * getUserRole
+ */
+export function getUserRole() {
+  const userObj = getItem('user');
+  return userObj && userObj.Role;
+}
+
