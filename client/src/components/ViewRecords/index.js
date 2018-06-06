@@ -5,6 +5,7 @@ import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as Repository from '../../repositories/user';
 import * as UserRecordsRepository from '../../repositories/user-record';
 import Header from '../Header';
+import * as StorageHelper from '../../adaptors/storage';
 
 class ViewRecords extends Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class ViewRecords extends Component {
     // :
     // "116fa1c6-82aa-4288-afea-c1d9477fb05d"
     const { records } = this.state;
-    const UserId = Repository.getUserId();
+    const UserId = StorageHelper.getUserId();
     let content;
 
     if (records.length > 0) {

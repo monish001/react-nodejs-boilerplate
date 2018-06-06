@@ -6,7 +6,6 @@ import Home from '../Home';
 import CreateRecord from '../CreateRecord';
 import ViewRecords from '../ViewRecords';
 import EditRecord from '../EditRecord';
-import CreateUser from '../CreateUser';
 import ViewUsers from '../ViewUsers';
 import EditUser from '../EditUser';
 import './style.css';
@@ -30,7 +29,6 @@ const App = () => (
           <Route path="/records/create" component={CreateRecord} />
           <Route path="/records/view" component={ViewRecords} />
           <Route path="/records/edit/:CreatedTimeStamp" component={EditRecord} />
-          <Route path="/users/create" component={CreateUser} />
           <Route path="/users/view" component={ViewUsers} />
           <Route path="/users/edit/:userId" component={EditUser} />
         </div>

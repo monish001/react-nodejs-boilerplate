@@ -1,13 +1,14 @@
 import http from 'axios';
-// import * as Constants from "../constants/Constants";
-import * as UserRepository from './user';
+import * as StorageHelper from './../adaptors/storage';
 import * as BaseRepository from './base';
 
 /**
  * get
  */
 export function read(createdTimeStamp, createdTimeStampFrom, createdTimeStampTo) {
-  const userId = UserRepository.getUserId();
+  const userId = StorageHelper.getUserId();
+  const userRole = StorageHelper.getUserRole();
+  const isRegularUserRole = (userRole === 'REGULAR_USER');
   const request = {
     UserId: userId,
     CreatedTimeStamp: createdTimeStamp,
@@ -15,14 +16,15 @@ export function read(createdTimeStamp, createdTimeStampFrom, createdTimeStampTo)
     CreatedTimeStampTo: createdTimeStampTo,
   };
   // console.log('records get', request);
-  return http.get(`/api/users/${userId}/records`, { params: request }, { headers: BaseRepository.getHeaders() });
+  const url = isRegularUserRole ? `/api/users/${userId}/records` : '/api/records';
+  return http.get(url, { params: request }, { headers: BaseRepository.getHeaders() });
 }
 
 /**
  * createRecord
  */
 export function create(args) {
-  const userId = UserRepository.getUserId();
+  const userId = StorageHelper.getUserId();
   const request = {
     UserId: userId,
     DistanceInMiles: args.distance,
@@ -35,7 +37,7 @@ export function create(args) {
  * remove
  */
 export function remove(createdTimeStamp) {
-  const userId = UserRepository.getUserId();
+  const userId = StorageHelper.getUserId();
   const request = {
     UserId: userId,
     CreatedTimeStamp: createdTimeStamp,
@@ -47,7 +49,7 @@ export function remove(createdTimeStamp) {
  * update
  */
 export function update(createdTimeStamp, data) {
-  const userId = UserRepository.getUserId();
+  const userId = StorageHelper.getUserId();
   const request = {
     DistanceInMiles: data.distanceInMiles,
     TimeDurationInMinutes: data.timeDurationInMinutes,

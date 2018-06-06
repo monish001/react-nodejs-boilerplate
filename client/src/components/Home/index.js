@@ -14,9 +14,6 @@ function getContentDomForUserManager() {
         <li>
           <Link href="# " to="/users/view">View Users</Link>
         </li>
-        <li>
-          <Link href="# " to="/users/create">Create New User</Link>
-        </li>
       </ul>
     </section>);
 }
@@ -27,9 +24,6 @@ function getContentDomForAdmin() {
       <ul className="no-list-style-type">
         <li>
           <Link href="# " to="/users/view">View Users</Link>
-        </li>
-        <li>
-          <Link href="# " to="/users/create">Create New User</Link>
         </li>
         <li>
           <Link href="# " to="/records/view">View Records</Link>
