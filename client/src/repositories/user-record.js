@@ -5,10 +5,10 @@ import * as BaseRepository from './base';
 /**
  * get
  */
-export function read(createdTimeStamp, createdTimeStampFrom, createdTimeStampTo) {
-  const userId = StorageHelper.getUserId();
+export function read(userId, createdTimeStamp, createdTimeStampFrom, createdTimeStampTo) {
   const userRole = StorageHelper.getUserRole();
   const isRegularUserRole = (userRole === 'REGULAR_USER');
+  const url = isRegularUserRole ? `/api/users/${userId}/records` : '/api/records';
   const request = {
     UserId: userId,
     CreatedTimeStamp: createdTimeStamp,
@@ -16,7 +16,6 @@ export function read(createdTimeStamp, createdTimeStampFrom, createdTimeStampTo)
     CreatedTimeStampTo: createdTimeStampTo,
   };
   // console.log('records get', request);
-  const url = isRegularUserRole ? `/api/users/${userId}/records` : '/api/records';
   return http.get(url, { params: request }, { headers: BaseRepository.getHeaders() });
 }
 
@@ -24,35 +23,42 @@ export function read(createdTimeStamp, createdTimeStampFrom, createdTimeStampTo)
  * createRecord
  */
 export function create(args) {
-  const userId = StorageHelper.getUserId();
+  const { userId } = args;
+  const userRole = StorageHelper.getUserRole();
+  const isRegularUserRole = (userRole === 'REGULAR_USER');
+  const url = isRegularUserRole ? `/api/users/${userId}/records` : '/api/records';
   const request = {
     UserId: userId,
     DistanceInMiles: args.distance,
     TimeDurationInMinutes: args.time,
   };
-  return http.post(`/api/users/${userId}/records`, request, { headers: BaseRepository.getHeaders() });
+  return http.post(url, request, { headers: BaseRepository.getHeaders() });
 }
 
 /**
  * remove
  */
-export function remove(createdTimeStamp) {
-  const userId = StorageHelper.getUserId();
+export function remove(userId, createdTimeStamp) {
+  const userRole = StorageHelper.getUserRole();
+  const isRegularUserRole = (userRole === 'REGULAR_USER');
+  const url = isRegularUserRole ? `/api/users/${userId}/records` : '/api/records';
   const request = {
     UserId: userId,
     CreatedTimeStamp: createdTimeStamp,
   };
-  return http.delete(`/api/users/${userId}/records`, { params: request }, { headers: BaseRepository.getHeaders() });
+  return http.delete(url, { params: request }, { headers: BaseRepository.getHeaders() });
 }
 
 /**
  * update
  */
-export function update(createdTimeStamp, data) {
-  const userId = StorageHelper.getUserId();
+export function update(userId, createdTimeStamp, data) {
+  const userRole = StorageHelper.getUserRole();
+  const isRegularUserRole = (userRole === 'REGULAR_USER');
+  const url = isRegularUserRole ? `/api/users/${userId}/records` : '/api/records';
   const request = {
     DistanceInMiles: data.distanceInMiles,
     TimeDurationInMinutes: data.timeDurationInMinutes,
   };
-  return http.put(`/api/users/${userId}/records?UserId=${userId}&CreatedTimeStamp=${createdTimeStamp}`, request, { headers: BaseRepository.getHeaders() });
+  return http.put(`${url}?UserId=${userId}&CreatedTimeStamp=${createdTimeStamp}`, request, { headers: BaseRepository.getHeaders() });
 }

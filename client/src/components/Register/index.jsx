@@ -69,11 +69,11 @@ class Register extends Component {
               onChange={() => this.setState({ showError: false })}
             />
           </label>
-          <a href="#" onClick={this.handleRegister}>Register</a>
+          <a href="# " onClick={this.handleRegister}>Register</a>
           {' '}
           or
           {' '}
-          <Link to="/login">Login</Link>
+          <Link href="# " to="/login">Login</Link>
         </section>
       </div>
     );

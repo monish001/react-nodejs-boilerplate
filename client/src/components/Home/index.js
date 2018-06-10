@@ -108,10 +108,11 @@ class Home extends Component {
 
   fetchUserRecords() {
     const { weekStart, weekEnd } = Utilities.getWeekStartEndDates();
+    const userId = StorageHelper.getUserId();
 
     // TODO loader
     UserRecordsRepository
-      .read(null, weekStart, weekEnd)
+      .read(userId, null, weekStart, weekEnd)
       .then((response) => {
         const responseData = (response && response.data) || [];
         // console.log(responseData);

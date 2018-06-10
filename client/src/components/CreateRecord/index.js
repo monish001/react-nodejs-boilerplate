@@ -4,6 +4,7 @@ import './style.css';
 import Header from '../Header';
 import EnsureLoggedInContainer from '../../containers/EnsureLoggedInContainer';
 import * as Repository from '../../repositories/user-record';
+import * as StorageHelper from '../../adaptors/storage';
 
 class Home extends Component {
   constructor(props) {
@@ -15,9 +16,11 @@ class Home extends Component {
   }
 
   onClick() {
+    const { distance, time, userId } = this.refs;
     Repository.create({
-      distance: this.refs.distance.value,
-      time: this.refs.time.value,
+      distance: distance.value,
+      time: time.value,
+      userId: (userId && userId.value) || StorageHelper.getUserId(),
     })
       .then(() => {
         this.setState({ goToHome: true });
@@ -32,6 +35,8 @@ class Home extends Component {
     if (goToHome) {
       return <Redirect to="/" />;
     }
+    const userRole = StorageHelper.getUserRole();
+    const isRegularUserRole = (userRole === 'REGULAR_USER');
     return (
       <div className="create-record-page">
         <EnsureLoggedInContainer />
@@ -40,15 +45,20 @@ class Home extends Component {
           <h3>Create Record</h3>
         </main>
         <section>
-          <label>
+          {!isRegularUserRole &&
+            <label htmlFor="user-id">
+              User id:
+              <input type="text" name="user-id" ref="userId" />
+            </label>}
+          <label htmlFor="distance">
             Distance (in miles):
             <input type="text" name="distance" ref="distance" />
           </label>
-          <label>
+          <label htmlFor="time">
             Time spent (in mins):
             <input type="text" name="time" ref="time" />
           </label>
-          <a href="#" onClick={this.onClick}>Create New</a>
+          <a href="# " onClick={this.onClick}>Create New</a>
         </section>
       </div>
     );

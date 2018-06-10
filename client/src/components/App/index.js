@@ -28,7 +28,7 @@ const App = () => (
           <Route path="/register" component={Register} />
           <Route path="/records/create" component={CreateRecord} />
           <Route path="/records/view" component={ViewRecords} />
-          <Route path="/records/edit/:CreatedTimeStamp" component={EditRecord} />
+          <Route path="/records/edit/:CreatedTimeStamp/:UserId" component={EditRecord} />
           <Route path="/users/view" component={ViewUsers} />
           <Route path="/users/edit/:userId" component={EditUser} />
         </div>

@@ -9,44 +9,29 @@ import * as UserRecordsRepository from '../../repositories/user-record';
 class EditRecord extends Component {
   constructor(props) {
     super(props);
-    const createdTimeStamp = this.props.match.params.CreatedTimeStamp;
+    const { CreatedTimeStamp, UserId } = this.props.match.params;
     this.state = {
       distanceInMiles: '',
       timeDurationInMinutes: '',
       _distanceInMiles: '', // to be used to store original values
       _timeDurationInMinutes: '',
-      createdTimeStamp,
+      createdTimeStamp: CreatedTimeStamp,
+      userId: UserId,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSave = this.onSave.bind(this);
   }
 
   componentWillMount() {
-    const { createdTimeStamp } = this.state;
-
-    // TODO loader
-    UserRecordsRepository
-      .read(createdTimeStamp)
-      .then((response) => {
-        const responseData = response && response.data && response.data.length && response.data[0];
-        // console.log(responseData);
-        this.setState({
-          distanceInMiles: responseData.DistanceInMiles,
-          timeDurationInMinutes: responseData.TimeDurationInMinutes,
-          _distanceInMiles: responseData.DistanceInMiles,
-          _timeDurationInMinutes: responseData.TimeDurationInMinutes,
-        });
-      }).catch((err) => {
-        console.error(err);
-      });
+    this.fetchUser();
   }
 
   onSave() {
     const {
-      _timeDurationInMinutes, _distanceInMiles,
+      _timeDurationInMinutes, _distanceInMiles, userId,
       timeDurationInMinutes, distanceInMiles, createdTimeStamp,
     } = this.state;
-    UserRecordsRepository.update(createdTimeStamp, { timeDurationInMinutes, distanceInMiles })
+    UserRecordsRepository.update(userId, createdTimeStamp, { timeDurationInMinutes, distanceInMiles })
       .then(() => {
         this.props.dispatch({
           type: 'ADD_NOTIFICATION',
@@ -72,6 +57,26 @@ class EditRecord extends Component {
     const newState = {};
     newState[key] = event.target.value;
     this.setState(newState);
+  }
+
+  fetchUser() {
+    const { createdTimeStamp, userId } = this.state;
+
+    // TODO loader
+    UserRecordsRepository
+      .read(userId, createdTimeStamp)
+      .then((response) => {
+        const responseData = response && response.data && response.data.length && response.data[0];
+        // console.log(responseData);
+        this.setState({
+          distanceInMiles: responseData.DistanceInMiles,
+          timeDurationInMinutes: responseData.TimeDurationInMinutes,
+          _distanceInMiles: responseData.DistanceInMiles,
+          _timeDurationInMinutes: responseData.TimeDurationInMinutes,
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
   }
 
   render() {
@@ -110,6 +115,7 @@ EditRecord.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       CreatedTimeStamp: PropTypes.string.isRequired,
+      UserId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
