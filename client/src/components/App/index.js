@@ -12,6 +12,7 @@ import './style.css';
 import Login from '../Login';
 import Register from '../Register';
 import reducer from '../../reducers';
+import * as Utilities from './../../utilities';
 
 const store = createStore(reducer);
 
@@ -36,5 +37,7 @@ const App = () => (
     </div>
   </Provider>
 );
+
+Utilities.SetupSessionStorage();
 
 export default App;
